@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SpeakingPad — Free Consultation</title>
+  <meta name="description" content="SpeakingPad helps professionals and students master interviews, public speaking, and executive communication.">
+  <style>
+    :root {
+      --navy:#0B1F3A; --ink:#0F172A; --slate:#334155; --muted:#64748B; --border:#E2E8F0; --bg:#F8FAFC;
+      --accent:#2F6FE4; --accent-2:#0EA5E9; --success:#10b981; --error:#ef4444; --white:#fff;
+      --radius:14px;
+    }
+    *,*::before,*::after { box-sizing: border-box; }
+    html,body { height:100%; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:var(--ink); background:var(--bg); }
+    a { color: inherit; text-decoration: none; }
+    header { background:var(--navy); color:var(--white); position:sticky; top:0; z-index:1000; }
+    .nav { height:66px; display:flex; align-items:center; justify-content:space-between; max-width:1200px; margin:auto; padding:0 22px; }
+    .brand { display:flex; align-items:center; font-weight:800; letter-spacing:.2px; }
+    .brand .logo { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:#fff; font-size:16px; margin-right:10px; }
+    .nav a { color:#E5E7EB; margin-left:18px; font-weight:600; }
+    .nav a:hover { color:#fff; }
+    .hero { padding:42px 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
+    .container { max-width:1200px; margin:auto; padding:0 22px; }
+    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap:28px; align-items:stretch; }
+    .hero h1 { margin:0 0 10px; font-size:clamp(2rem,4vw,3.2rem); line-height:1.08; }
+    .hero p.lead { margin:0 0 18px; color:#D1D5DB; font-size:1.1rem; }
+    .points { display:flex; flex-wrap:wrap; gap:10px; }
+    .pill { border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:6px 10px; font-size:.9rem; color:#E5E7EB; }
+    .card { background:radial-gradient(1200px 400px at 80% -10%, rgba(255,255,255,.12), transparent), rgba(255,255,255,.06);
+             border:1px solid rgba(255,255,255,.2); border-radius:var(--radius); padding:18px; backdrop-filter: blur(4px); }
+    .form { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px; color:var(--ink);
+             box-shadow: 0 8px 30px rgba(2,6,23,.12); }
+    .form h2 { margin:0 0 6px; font-size:1.25rem; }
+    .form .sub { margin:0 0 12px; color:var(--muted); font-size:.95rem; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .row { margin-top:10px; }
+    .field { position:relative; }
+    .label { display:block; font-weight:700; font-size:.95rem; margin-bottom:6px; color:var(--slate); }
+    .input, .select, .textarea {
+      width:100%; padding:14px 12px; border:1px solid #cbd5e1; border-radius:12px; font: inherit; background:#fff;
+      transition: box-shadow .2s ease, border-color .2s ease; outline:none;
+    }
+    .input:focus, .select:focus, .textarea:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(47,111,228,.12); }
+    .error { font-size:.85rem; color:var(--error); margin-top:6px; display:none; }
+    .actions { display:flex; align-items:center; gap:10px; margin-top:12px; }
+    .btn { padding:12px 16px; border-radius:12px; border:1px solid var(--accent); background:var(--accent); color:#fff; font-weight:800; cursor:pointer; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; }
+    .note { color:var(--muted); font-size:.9rem; }
+    section { padding:56px 0; }
+    section[id] { scroll-margin-top:86px; }
+    .section-title { font-weight:800; font-size:1.5rem; margin:0 0 6px; }
+    .muted { color:var(--muted); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .card-plain { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px;
+                   box-shadow: 0 8px 30px rgba(2,6,23,.06); }
+    .toast { position: fixed; top: 12px; right: 12px; background: var(--success); color:#fff; padding: 12px 14px; border-radius: 10px; display: none; z-index: 2000; }
+    .toast.err { background: var(--error); }
+    @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+
+  <header>
+    <div class="nav">
+      <div class="brand"><div class="logo">SP</div>SpeakingPad</div>
+      <nav>
+        <a href="#programs">Programs</a>
+        <a href="#about">About</a>
+        <a href="#mission">Mission & Vision</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="lead">
+    <div class="container hero-grid">
+      <div>
+        <h1>Speak with clarity. Lead with confidence.</h1>
+        <p class="lead">Practical, outcome-focused coaching for interviews, public speaking, and executive communication.</p>
+        <div class="points">
+          <span class="pill">Interview Preparation</span>
+          <span class="pill">Public Speaking</span>
+          <span class="pill">Presentation Skills</span>
+          <span class="pill">Confidence Building</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <!-- UPDATED SHORT FORM -->
+        <form id="leadForm" class="form" novalidate>
+          <h2>Free Consultation</h2>
+          <p class="sub">Share your details and we’ll get back within 24 hours.</p>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="name">Full Name *</label>
+              <input class="input" id="name" name="name" required>
+              <div class="error" id="err-name">Please enter your name.</div>
+            </div>
+          </div>
+
+          <div class="grid-2 row">
+            <div class="field">
+              <label class="label" for="email">Email *</label>
+              <input class="input" id="email" name="email" type="email" required>
+              <div class="error" id="err-email">Please enter a valid email.</div>
+            </div>
+            <div class="field">
+              <label class="label" for="phone">Phone Number *</label>
+              <input class="input" id="phone" name="phone" type="tel" required>
+              <div class="error" id="err-phone">Please enter a valid phone number.</div>
+            </div>
+          </div>
+
+          <div class="grid-2 row">
+            <div class="field">
+              <label class="label" for="status">Current Status *</label>
+              <select class="select" id="status" name="status" required>
+                <option value="">Select</option>
+                <option>Working Professional</option>
+                <option>Fresher</option>
+              </select>
+              <div class="error" id="err-status">Please select an option.</div>
+            </div>
+            <div class="field" id="experienceField" style="display:none;">
+              <label class="label" for="experience">Years of Experience</label>
+              <input class="input" id="experience" name="experience" type="number" min="0" step="0.1" inputmode="decimal">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" id="submitBtn" type="submit">Submit</button>
+            <span class="note">We never share your details.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="programs">
+    <div class="container">
+      <div class="two-col">
+        <div class="card-plain">
+          <div class="section-title">Programs</div>
+          <p class="muted">Practice-first formats tailored to your goals.</p>
+          <ul class="muted">
+            <li>1:1 Coaching — personalized plan, weekly drills, rapid iteration.</li>
+            <li>Cohort Program — small groups, peer reviews, capstone presentation.</li>
+            <li>Corporate Workshops — presentations, stakeholder comms, storytelling.</li>
+          </ul>
+        </div>
+        <div class="card-plain" id="about">
+          <div class="section-title">About Arpit Gupta</div>
+          <p class="muted">Arpit Gupta is a leader and public speaking coach with 9+ years of experience across Moody’s Analytics, Paytm, Rupeek, Cars24 Australia, and Info Edge (JobHai). He has delivered talks to international clients, won 50+ Best Speaker awards, and mentored 100+ learners in communication and confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mission">
+    <div class="container two-col">
+      <div class="card-plain">
+        <div class="section-title">Mission</div>
+        <p class="muted">Enable every learner to communicate with clarity and confidence by combining deliberate practice, actionable feedback, and simple, repeatable playbooks.</p>
+      </div>
+      <div class="card-plain">
+        <div class="section-title">Vision</div>
+        <p class="muted">Build India’s most trusted communication academy—where students and professionals consistently crack interviews, lead teams, and influence rooms with poise.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container" style="padding:24px 22px;color:#64748B">© <span id="y"></span> SpeakingPad • All rights reserved</footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('leadForm');
+    const toast = document.getElementById('toast');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusSelect = document.getElementById('status');
+    const expField = document.getElementById('experienceField');
+
+    // Use your actual Apps Script URL
+    const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
+
+    statusSelect.addEventListener('change', () => {
+      expField.style.display = statusSelect.value === 'Working Professional' ? 'block' : 'none';
+    });
+
+    function showToast(msg, isErr=false) {
+      toast.textContent = msg;
+      toast.className = 'toast' + (isErr ? ' err' : '');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3200);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Basic validation
+      let valid = true;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const phone = form.phone.value.trim();
+      const status = form.status.value;
+      const experience = (status === 'Working Professional') ? (form.experience.value || '').trim() : '';
+
+      document.getElementById('err-name').style.display = name ? 'none' : 'block';
+      if (!name) valid = false;
+
+      if (email) {
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        document.getElementById('err-email').style.display = emailOk ? 'none' : 'block';
+        if (!emailOk) valid = false;
+      } else {
+        document.getElementById('err-email').style.display = 'block'; valid = false;
+      }
+
+      document.getElementById('err-phone').style.display = phone ? 'none' : 'block';
+      if (!phone) valid = false;
+
+      document.getElementById('err-status').style.display = status ? 'none' : 'block';
+      if (!status) valid = false;
+
+      if (!valid) { showToast('Please fix the highlighted fields.', true); return; }
+
+      // Send as URL-encoded for maximum Apps Script compatibility
+      const payload = new URLSearchParams({ name, email, phone, status, experience });
+
+      submitBtn.disabled = true;
+      try {
+        const r = await fetch(APP_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString(),
+          mode: 'cors'
+        });
+        const text = await r.text();
+        let json; try { json = JSON.parse(text); } catch(_) { json = { status: r.ok ? 'ok' : 'error' }; }
+        if (json.status === 'ok') {
+          form.reset();
+          expField.style.display = 'none';
+          showToast('Thanks! Your details are submitted.');
+        } else {
+          showToast('Submission error. Please try again.', true);
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Network error. Please try again.', true);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
