@@ -18,14 +18,10 @@
     body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:var(--ink); background:var(--bg); -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
 
-    /*
-     * Layout helpers
-     */
     .container { max-width: var(--container); margin:auto; padding:0 var(--space); }
     section { padding: clamp(40px, 6vw, 72px) 0; }
     section[id] { scroll-margin-top:86px; }
 
-    /* Header / Nav */
     header { background:var(--navy); color:var(--white); position:sticky; top:0; z-index:1000; }
     .nav { height:66px; display:flex; align-items:center; justify-content:space-between; max-width:var(--container); margin:auto; padding:0 var(--space); }
     .brand { display:flex; align-items:center; font-weight:800; letter-spacing:.2px; font-size: clamp(16px, 2vw, 18px); }
@@ -35,16 +31,14 @@
     .nav-links a { color:#E5E7EB; font-weight:600; padding:10px 8px; border-radius:10px; }
     .nav-links a:focus-visible, .nav-links a:hover { color:#fff; background: rgba(255,255,255,.08); outline: none; }
 
-    /* Mobile menu */
     .menu-btn { display:none; border:1px solid rgba(255,255,255,.2); background:transparent; color:#fff; border-radius:10px; padding:8px 10px; font-weight:700; }
     .menu-panel { display:none; background: var(--navy); border-top: 1px solid rgba(255,255,255,.12); }
     .menu-panel a { display:block; padding:14px var(--space); color:#E5E7EB; }
     .menu-panel a:hover { color:#fff; background: rgba(255,255,255,.06); }
 
-    /* Hero */
-    .hero { padding: clamp(28px, 5vw, 56px) 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
-    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: clamp(16px, 2.5vw, 28px); align-items:stretch; }
-    .hero h1 { margin:0 0 10px; font-size:clamp(1.75rem, 4.5vw, 3.2rem); line-height:1.08; }
+    .hero { min-height:100vh; display:flex; align-items:center; padding: clamp(28px, 5vw, 56px) 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
+    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: clamp(16px, 2.5vw, 28px); align-items:stretch; width:100%; }
+    .hero h1 { margin:0 0 10px; font-size:clamp(2rem, 5vw, 3.2rem); line-height:1.08; }
     .hero p.lead { margin:0 0 18px; color:#D1D5DB; font-size:clamp(1rem, 1.3vw, 1.1rem); }
     .points { display:flex; flex-wrap:wrap; gap:10px; }
     .pill { border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:8px 12px; font-size:clamp(.85rem, 1.1vw, .95rem); color:#E5E7EB; }
@@ -52,7 +46,6 @@
     .card { background:radial-gradient(1200px 400px at 80% -10%, rgba(255,255,255,.12), transparent), rgba(255,255,255,.06);
              border:1px solid rgba(255,255,255,.2); border-radius:var(--radius); padding: clamp(14px, 2vw, 18px); backdrop-filter: blur(4px); }
 
-    /* Form */
     .form { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px); color:var(--ink);
              box-shadow: 0 8px 30px rgba(2,6,23,.12); }
     .form h2 { margin:0 0 6px; font-size:clamp(1.1rem, 2.2vw, 1.25rem); }
@@ -72,25 +65,17 @@
     .btn:disabled { opacity:.6; cursor:not-allowed; }
     .note { color:var(--muted); font-size:.9rem; }
 
-    /* Sections */
     .section-title { font-weight:800; font-size:clamp(1.25rem, 2.2vw, 1.5rem); margin:0 0 6px; }
     .muted { color:var(--muted); }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
     .card-plain { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px);
                    box-shadow: 0 8px 30px rgba(2,6,23,.06); }
 
-    /* Toast */
     .toast { position: fixed; top: 12px; right: 12px; background: var(--success); color:#fff; padding: 12px 14px; border-radius: 10px; display: none; z-index: 2000; max-width: min(92vw, 360px); }
     .toast.err { background: var(--error); }
 
     footer { padding:24px var(--space); color:#64748B }
 
-    /* Accessibility & motion */
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; }
-    }
-
-    /* Breakpoints */
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
       .card { order: -1; }
@@ -144,7 +129,6 @@
       </div>
 
       <div class="card">
-        <!-- MOBILE-FRIENDLY FORM -->
         <form id="leadForm" class="form" novalidate>
           <h2>Free Consultation</h2>
           <p class="sub">Share your details and we’ll get back within 24 hours.</p>
@@ -231,10 +215,7 @@
   <footer class="container">© <span id="y"></span> SpeakingPad • All rights reserved</footer>
 
   <script>
-    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Mobile menu toggle
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (menuBtn) {
@@ -243,7 +224,6 @@
         menuBtn.setAttribute('aria-expanded', String(!expanded));
         mobileMenu.classList.toggle('show');
       });
-      // Close after clicking a link (mobile UX)
       mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
         mobileMenu.classList.remove('show');
         menuBtn.setAttribute('aria-expanded', 'false');
@@ -256,7 +236,6 @@
     const statusSelect = document.getElementById('status');
     const expField = document.getElementById('experienceField');
 
-    // Use your actual Apps Script URL (unchanged from your version)
     const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
 
     statusSelect.addEventListener('change', () => {
@@ -267,68 +246,4 @@
       toast.textContent = msg;
       toast.className = 'toast' + (isErr ? ' err' : '');
       toast.style.display = 'block';
-      window.clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => { toast.style.display = 'none'; }, 3200);
-    }
-
-    // Simple phone sanity (India 10-digit primary)
-    function isValidPhone(v){
-      const s = (v||'').replace(/\D/g,'');
-      return s.length >= 10 && s.length <= 13; // allow for country code
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      let valid = true;
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const phone = form.phone.value.trim();
-      const status = form.status.value;
-      const experience = (status === 'Working Professional') ? (form.experience.value || '').trim() : '';
-
-      document.getElementById('err-name').style.display = name ? 'none' : 'block';
-      if (!name) valid = false;
-
-      if (email) {
-        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        document.getElementById('err-email').style.display = emailOk ? 'none' : 'block';
-        if (!emailOk) valid = false;
-      } else { document.getElementById('err-email').style.display = 'block'; valid = false; }
-
-      const phoneOk = isValidPhone(phone);
-      document.getElementById('err-phone').style.display = phoneOk ? 'none' : 'block';
-      if (!phoneOk) valid = false;
-
-      document.getElementById('err-status').style.display = status ? 'none' : 'block';
-      if (!status) valid = false;
-
-      if (!valid) { showToast('Please fix the highlighted fields.', true); return; }
-
-      const payload = new URLSearchParams({ name, email, phone, status, experience });
-
-      submitBtn.disabled = true;
-      try {
-        const r = await fetch(APP_SCRIPT_URL, {
-          method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: payload.toString(), mode: 'cors'
-        });
-        const text = await r.text();
-        let json; try { json = JSON.parse(text); } catch(_) { json = { status: r.ok ? 'ok' : 'error' }; }
-        if (json.status === 'ok') {
-          form.reset();
-          expField.style.display = 'none';
-          showToast('Thanks! Your details are submitted.');
-        } else {
-          showToast('Submission error. Please try again.', true);
-        }
-      } catch (err) {
-        console.error(err);
-        showToast('Network error. Please try again.', true);
-      } finally {
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
-</body>
-</html>
+      window.clearTimeout(showToast._
