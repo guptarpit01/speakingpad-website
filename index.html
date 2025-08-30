@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>SpeakingPad — Free Consultation</title>
   <meta name="description" content="SpeakingPad helps professionals and students master interviews, public speaking, and executive communication.">
   <style>
@@ -10,67 +10,123 @@
       --navy:#0B1F3A; --ink:#0F172A; --slate:#334155; --muted:#64748B; --border:#E2E8F0; --bg:#F8FAFC;
       --accent:#2F6FE4; --accent-2:#0EA5E9; --success:#10b981; --error:#ef4444; --white:#fff;
       --radius:14px;
+      --container:1200px;
+      --space: clamp(14px, 2vw, 22px);
     }
     *,*::before,*::after { box-sizing: border-box; }
     html,body { height:100%; }
-    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:var(--ink); background:var(--bg); }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:var(--ink); background:var(--bg); -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
+
+    /*
+     * Layout helpers
+     */
+    .container { max-width: var(--container); margin:auto; padding:0 var(--space); }
+    section { padding: clamp(40px, 6vw, 72px) 0; }
+    section[id] { scroll-margin-top:86px; }
+
+    /* Header / Nav */
     header { background:var(--navy); color:var(--white); position:sticky; top:0; z-index:1000; }
-    .nav { height:66px; display:flex; align-items:center; justify-content:space-between; max-width:1200px; margin:auto; padding:0 22px; }
-    .brand { display:flex; align-items:center; font-weight:800; letter-spacing:.2px; }
-    .brand .logo { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:#fff; font-size:16px; margin-right:10px; }
-    .nav a { color:#E5E7EB; margin-left:18px; font-weight:600; }
-    .nav a:hover { color:#fff; }
-    .hero { padding:42px 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
-    .container { max-width:1200px; margin:auto; padding:0 22px; }
-    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap:28px; align-items:stretch; }
-    .hero h1 { margin:0 0 10px; font-size:clamp(2rem,4vw,3.2rem); line-height:1.08; }
-    .hero p.lead { margin:0 0 18px; color:#D1D5DB; font-size:1.1rem; }
+    .nav { height:66px; display:flex; align-items:center; justify-content:space-between; max-width:var(--container); margin:auto; padding:0 var(--space); }
+    .brand { display:flex; align-items:center; font-weight:800; letter-spacing:.2px; font-size: clamp(16px, 2vw, 18px); }
+    .brand .logo { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:#fff; font-size:16px; margin-right:10px; flex:none; }
+
+    .nav-links { display:flex; align-items:center; gap: 18px; }
+    .nav-links a { color:#E5E7EB; font-weight:600; padding:10px 8px; border-radius:10px; }
+    .nav-links a:focus-visible, .nav-links a:hover { color:#fff; background: rgba(255,255,255,.08); outline: none; }
+
+    /* Mobile menu */
+    .menu-btn { display:none; border:1px solid rgba(255,255,255,.2); background:transparent; color:#fff; border-radius:10px; padding:8px 10px; font-weight:700; }
+    .menu-panel { display:none; background: var(--navy); border-top: 1px solid rgba(255,255,255,.12); }
+    .menu-panel a { display:block; padding:14px var(--space); color:#E5E7EB; }
+    .menu-panel a:hover { color:#fff; background: rgba(255,255,255,.06); }
+
+    /* Hero */
+    .hero { padding: clamp(28px, 5vw, 56px) 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
+    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: clamp(16px, 2.5vw, 28px); align-items:stretch; }
+    .hero h1 { margin:0 0 10px; font-size:clamp(1.75rem, 4.5vw, 3.2rem); line-height:1.08; }
+    .hero p.lead { margin:0 0 18px; color:#D1D5DB; font-size:clamp(1rem, 1.3vw, 1.1rem); }
     .points { display:flex; flex-wrap:wrap; gap:10px; }
-    .pill { border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:6px 10px; font-size:.9rem; color:#E5E7EB; }
+    .pill { border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:8px 12px; font-size:clamp(.85rem, 1.1vw, .95rem); color:#E5E7EB; }
+
     .card { background:radial-gradient(1200px 400px at 80% -10%, rgba(255,255,255,.12), transparent), rgba(255,255,255,.06);
-             border:1px solid rgba(255,255,255,.2); border-radius:var(--radius); padding:18px; backdrop-filter: blur(4px); }
-    .form { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px; color:var(--ink);
+             border:1px solid rgba(255,255,255,.2); border-radius:var(--radius); padding: clamp(14px, 2vw, 18px); backdrop-filter: blur(4px); }
+
+    /* Form */
+    .form { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px); color:var(--ink);
              box-shadow: 0 8px 30px rgba(2,6,23,.12); }
-    .form h2 { margin:0 0 6px; font-size:1.25rem; }
-    .form .sub { margin:0 0 12px; color:var(--muted); font-size:.95rem; }
+    .form h2 { margin:0 0 6px; font-size:clamp(1.1rem, 2.2vw, 1.25rem); }
+    .form .sub { margin:0 0 12px; color:var(--muted); font-size:clamp(.95rem, 2vw, .95rem); }
     .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .row { margin-top:10px; }
     .field { position:relative; }
     .label { display:block; font-weight:700; font-size:.95rem; margin-bottom:6px; color:var(--slate); }
     .input, .select, .textarea {
-      width:100%; padding:14px 12px; border:1px solid #cbd5e1; border-radius:12px; font: inherit; background:#fff;
-      transition: box-shadow .2s ease, border-color .2s ease; outline:none;
+      width:100%; padding:16px 14px; border:1px solid #cbd5e1; border-radius:12px; font: inherit; background:#fff;
+      transition: box-shadow .2s ease, border-color .2s ease; outline:none; min-height:48px;
     }
     .input:focus, .select:focus, .textarea:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(47,111,228,.12); }
     .error { font-size:.85rem; color:var(--error); margin-top:6px; display:none; }
-    .actions { display:flex; align-items:center; gap:10px; margin-top:12px; }
-    .btn { padding:12px 16px; border-radius:12px; border:1px solid var(--accent); background:var(--accent); color:#fff; font-weight:800; cursor:pointer; }
+    .actions { display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap: wrap; }
+    .btn { padding:14px 16px; border-radius:12px; border:1px solid var(--accent); background:var(--accent); color:#fff; font-weight:800; cursor:pointer; min-width:160px; }
     .btn:disabled { opacity:.6; cursor:not-allowed; }
     .note { color:var(--muted); font-size:.9rem; }
-    section { padding:56px 0; }
-    section[id] { scroll-margin-top:86px; }
-    .section-title { font-weight:800; font-size:1.5rem; margin:0 0 6px; }
+
+    /* Sections */
+    .section-title { font-weight:800; font-size:clamp(1.25rem, 2.2vw, 1.5rem); margin:0 0 6px; }
     .muted { color:var(--muted); }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    .card-plain { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px;
+    .card-plain { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px);
                    box-shadow: 0 8px 30px rgba(2,6,23,.06); }
-    .toast { position: fixed; top: 12px; right: 12px; background: var(--success); color:#fff; padding: 12px 14px; border-radius: 10px; display: none; z-index: 2000; }
+
+    /* Toast */
+    .toast { position: fixed; top: 12px; right: 12px; background: var(--success); color:#fff; padding: 12px 14px; border-radius: 10px; display: none; z-index: 2000; max-width: min(92vw, 360px); }
     .toast.err { background: var(--error); }
-    @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    footer { padding:24px var(--space); color:#64748B }
+
+    /* Accessibility & motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+
+    /* Breakpoints */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .card { order: -1; }
+    }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns:1fr; }
+      .actions { flex-direction: column; align-items: stretch; }
+      .btn { width:100%; }
+      .two-col { grid-template-columns:1fr; }
+      .menu-btn { display:inline-flex; align-items:center; gap:8px; }
+      .nav-links { display:none; }
+      .menu-panel.show { display:block; }
+    }
+    @media (max-width: 400px) {
+      .pill { padding:6px 10px; }
+      .brand .logo { width:28px; height:28px; }
+    }
   </style>
 </head>
 <body>
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <header>
     <div class="nav">
-      <div class="brand"><div class="logo">SP</div>SpeakingPad</div>
-      <nav>
+      <div class="brand"><div class="logo" aria-hidden="true">SP</div>SpeakingPad</div>
+      <nav class="nav-links" aria-label="Primary">
         <a href="#programs">Programs</a>
         <a href="#about">About</a>
         <a href="#mission">Mission & Vision</a>
       </nav>
+      <button id="menuBtn" class="menu-btn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle menu">Menu ▾</button>
+    </div>
+    <div id="mobileMenu" class="menu-panel" role="dialog" aria-modal="false">
+      <a href="#programs">Programs</a>
+      <a href="#about">About</a>
+      <a href="#mission">Mission & Vision</a>
     </div>
   </header>
 
@@ -79,7 +135,7 @@
       <div>
         <h1>Speak with clarity. Lead with confidence.</h1>
         <p class="lead">Practical, outcome-focused coaching for interviews, public speaking, and executive communication.</p>
-        <div class="points">
+        <div class="points" aria-label="Key focus areas">
           <span class="pill">Interview Preparation</span>
           <span class="pill">Public Speaking</span>
           <span class="pill">Presentation Skills</span>
@@ -88,7 +144,7 @@
       </div>
 
       <div class="card">
-        <!-- UPDATED SHORT FORM -->
+        <!-- MOBILE-FRIENDLY FORM -->
         <form id="leadForm" class="form" novalidate>
           <h2>Free Consultation</h2>
           <p class="sub">Share your details and we’ll get back within 24 hours.</p>
@@ -96,7 +152,7 @@
           <div class="row">
             <div class="field">
               <label class="label" for="name">Full Name *</label>
-              <input class="input" id="name" name="name" required>
+              <input class="input" id="name" name="name" required autocomplete="name" placeholder="Your full name">
               <div class="error" id="err-name">Please enter your name.</div>
             </div>
           </div>
@@ -104,12 +160,12 @@
           <div class="grid-2 row">
             <div class="field">
               <label class="label" for="email">Email *</label>
-              <input class="input" id="email" name="email" type="email" required>
+              <input class="input" id="email" name="email" type="email" required inputmode="email" autocomplete="email" placeholder="you@example.com">
               <div class="error" id="err-email">Please enter a valid email.</div>
             </div>
             <div class="field">
               <label class="label" for="phone">Phone Number *</label>
-              <input class="input" id="phone" name="phone" type="tel" required>
+              <input class="input" id="phone" name="phone" type="tel" required inputmode="tel" autocomplete="tel" placeholder="10-digit mobile">
               <div class="error" id="err-phone">Please enter a valid phone number.</div>
             </div>
           </div>
@@ -126,7 +182,7 @@
             </div>
             <div class="field" id="experienceField" style="display:none;">
               <label class="label" for="experience">Years of Experience</label>
-              <input class="input" id="experience" name="experience" type="number" min="0" step="0.1" inputmode="decimal">
+              <input class="input" id="experience" name="experience" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 3.5">
             </div>
           </div>
 
@@ -172,10 +228,27 @@
     </div>
   </section>
 
-  <footer class="container" style="padding:24px 22px;color:#64748B">© <span id="y"></span> SpeakingPad • All rights reserved</footer>
+  <footer class="container">© <span id="y"></span> SpeakingPad • All rights reserved</footer>
 
   <script>
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', String(!expanded));
+        mobileMenu.classList.toggle('show');
+      });
+      // Close after clicking a link (mobile UX)
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        mobileMenu.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }));
+    }
 
     const form = document.getElementById('leadForm');
     const toast = document.getElementById('toast');
@@ -183,7 +256,7 @@
     const statusSelect = document.getElementById('status');
     const expField = document.getElementById('experienceField');
 
-    // Use your actual Apps Script URL
+    // Use your actual Apps Script URL (unchanged from your version)
     const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
 
     statusSelect.addEventListener('change', () => {
@@ -194,13 +267,19 @@
       toast.textContent = msg;
       toast.className = 'toast' + (isErr ? ' err' : '');
       toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3200);
+      window.clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => { toast.style.display = 'none'; }, 3200);
+    }
+
+    // Simple phone sanity (India 10-digit primary)
+    function isValidPhone(v){
+      const s = (v||'').replace(/\D/g,'');
+      return s.length >= 10 && s.length <= 13; // allow for country code
     }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Basic validation
       let valid = true;
       const name = form.name.value.trim();
       const email = form.email.value.trim();
@@ -215,28 +294,24 @@
         const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         document.getElementById('err-email').style.display = emailOk ? 'none' : 'block';
         if (!emailOk) valid = false;
-      } else {
-        document.getElementById('err-email').style.display = 'block'; valid = false;
-      }
+      } else { document.getElementById('err-email').style.display = 'block'; valid = false; }
 
-      document.getElementById('err-phone').style.display = phone ? 'none' : 'block';
-      if (!phone) valid = false;
+      const phoneOk = isValidPhone(phone);
+      document.getElementById('err-phone').style.display = phoneOk ? 'none' : 'block';
+      if (!phoneOk) valid = false;
 
       document.getElementById('err-status').style.display = status ? 'none' : 'block';
       if (!status) valid = false;
 
       if (!valid) { showToast('Please fix the highlighted fields.', true); return; }
 
-      // Send as URL-encoded for maximum Apps Script compatibility
       const payload = new URLSearchParams({ name, email, phone, status, experience });
 
       submitBtn.disabled = true;
       try {
         const r = await fetch(APP_SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: payload.toString(),
-          mode: 'cors'
+          method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString(), mode: 'cors'
         });
         const text = await r.text();
         let json; try { json = JSON.parse(text); } catch(_) { json = { status: r.ok ? 'ok' : 'error' }; }
