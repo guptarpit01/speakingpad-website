@@ -3,247 +3,1466 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>SpeakingPad — Free Consultation</title>
-  <meta name="description" content="SpeakingPad helps professionals and students master interviews, public speaking, and executive communication.">
+  <title>SpeakingPad — Speak Clearly. Lead Confidently.</title>
+  <meta name="description" content="SpeakingPad helps students and professionals build interview confidence, public speaking fluency, presentation skills, and executive communication through deliberate practice.">
+  <meta name="theme-color" content="#f5f5f7">
   <style>
     :root {
-      --navy:#0B1F3A; --ink:#0F172A; --slate:#334155; --muted:#64748B; --border:#E2E8F0; --bg:#F8FAFC;
-      --accent:#2F6FE4; --accent-2:#0EA5E9; --success:#10b981; --error:#ef4444; --white:#fff;
-      --radius:14px;
-      --container:1200px;
-      --space: clamp(14px, 2vw, 22px);
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --bg-2: #ffffff;
+      --ink: #0b0b0f;
+      --ink-soft: #1d1d1f;
+      --muted: #6e6e73;
+      --muted-2: #86868b;
+      --line: rgba(0,0,0,.10);
+      --line-strong: rgba(0,0,0,.16);
+      --glass: rgba(255,255,255,.74);
+      --glass-strong: rgba(255,255,255,.92);
+      --blue: #0071e3;
+      --blue-2: #2997ff;
+      --green: #00a36c;
+      --red: #d93025;
+      --purple: #7c3aed;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.05);
+      --shadow-md: 0 10px 30px rgba(0,0,0,.08), 0 35px 80px rgba(0,0,0,.08);
+      --shadow-lg: 0 30px 90px rgba(0,0,0,.16);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --container: 1180px;
+      --pad: clamp(18px, 3vw, 32px);
+      --header-h: 58px;
     }
-    *,*::before,*::after { box-sizing: border-box; }
-    html,body { height:100%; }
-    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial; color:var(--ink); background:var(--bg); -webkit-font-smoothing: antialiased; }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(0,113,227,.14), transparent 32rem),
+        radial-gradient(circle at 85% 12%, rgba(124,58,237,.10), transparent 34rem),
+        linear-gradient(180deg, #fbfbfd 0%, var(--bg) 42%, #ffffff 100%);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
     a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    ::selection { background: rgba(0,113,227,.16); }
 
-    .container { max-width: var(--container); margin:auto; padding:0 var(--space); }
-    section { padding: clamp(40px, 6vw, 72px) 0; }
-    section[id] { scroll-margin-top:86px; }
-
-    header { background:var(--navy); color:var(--white); position:sticky; top:0; z-index:1000; }
-    .nav { height:66px; display:flex; align-items:center; justify-content:space-between; max-width:var(--container); margin:auto; padding:0 var(--space); }
-    .brand { display:flex; align-items:center; font-weight:800; letter-spacing:.2px; font-size: clamp(16px, 2vw, 18px); }
-    .brand .logo { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:#fff; font-size:16px; margin-right:10px; flex:none; }
-
-    .nav-links { display:flex; align-items:center; gap: 18px; }
-    .nav-links a { color:#E5E7EB; font-weight:600; padding:10px 8px; border-radius:10px; }
-    .nav-links a:focus-visible, .nav-links a:hover { color:#fff; background: rgba(255,255,255,.08); outline: none; }
-
-    .menu-btn { display:none; border:1px solid rgba(255,255,255,.2); background:transparent; color:#fff; border-radius:10px; padding:8px 10px; font-weight:700; }
-    .menu-panel { display:none; background: var(--navy); border-top: 1px solid rgba(255,255,255,.12); }
-    .menu-panel a { display:block; padding:14px var(--space); color:#E5E7EB; }
-    .menu-panel a:hover { color:#fff; background: rgba(255,255,255,.06); }
-
-    .hero { min-height:100vh; display:flex; align-items:center; padding: clamp(28px, 5vw, 56px) 0; background:linear-gradient(180deg,#0B1F3A 0%, #102542 100%); color:#fff; border-bottom:1px solid rgba(255,255,255,.08); }
-    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: clamp(16px, 2.5vw, 28px); align-items:stretch; width:100%; }
-    .hero h1 { margin:0 0 10px; font-size:clamp(2rem, 5vw, 3.2rem); line-height:1.08; }
-    .hero p.lead { margin:0 0 18px; color:#D1D5DB; font-size:clamp(1rem, 1.3vw, 1.1rem); }
-    .points { display:flex; flex-wrap:wrap; gap:10px; }
-    .pill { border:1px solid rgba(255,255,255,.22); border-radius:999px; padding:8px 12px; font-size:clamp(.85rem, 1.1vw, .95rem); color:#E5E7EB; }
-
-    .card { background:radial-gradient(1200px 400px at 80% -10%, rgba(255,255,255,.12), transparent), rgba(255,255,255,.06);
-             border:1px solid rgba(255,255,255,.2); border-radius:var(--radius); padding: clamp(14px, 2vw, 18px); backdrop-filter: blur(4px); }
-
-    .form { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px); color:var(--ink);
-             box-shadow: 0 8px 30px rgba(2,6,23,.12); }
-    .form h2 { margin:0 0 6px; font-size:clamp(1.1rem, 2.2vw, 1.25rem); }
-    .form .sub { margin:0 0 12px; color:var(--muted); font-size:clamp(.95rem, 2vw, .95rem); }
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .row { margin-top:10px; }
-    .field { position:relative; }
-    .label { display:block; font-weight:700; font-size:.95rem; margin-bottom:6px; color:var(--slate); }
-    .input, .select, .textarea {
-      width:100%; padding:16px 14px; border:1px solid #cbd5e1; border-radius:12px; font: inherit; background:#fff;
-      transition: box-shadow .2s ease, border-color .2s ease; outline:none; min-height:48px;
+    .container {
+      width: min(100% - 36px, var(--container));
+      margin-inline: auto;
     }
-    .input:focus, .select:focus, .textarea:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(47,111,228,.12); }
-    .error { font-size:.85rem; color:var(--error); margin-top:6px; display:none; }
-    .actions { display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap: wrap; }
-    .btn { padding:14px 16px; border-radius:12px; border:1px solid var(--accent); background:var(--accent); color:#fff; font-weight:800; cursor:pointer; min-width:160px; }
-    .btn:disabled { opacity:.6; cursor:not-allowed; }
-    .note { color:var(--muted); font-size:.9rem; }
 
-    .section-title { font-weight:800; font-size:clamp(1.25rem, 2.2vw, 1.5rem); margin:0 0 6px; }
-    .muted { color:var(--muted); }
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    .card-plain { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding: clamp(14px, 2.3vw, 18px);
-                   box-shadow: 0 8px 30px rgba(2,6,23,.06); }
-
-    .toast { position: fixed; top: 12px; right: 12px; background: var(--success); color:#fff; padding: 12px 14px; border-radius: 10px; display: none; z-index: 2000; max-width: min(92vw, 360px); }
-    .toast.err { background: var(--error); }
-
-    footer { padding:24px var(--space); color:#64748B }
-
-    @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .card { order: -1; }
+    .skip-link {
+      position: fixed;
+      left: 14px;
+      top: -120px;
+      z-index: 2000;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      transition: top .2s ease;
     }
-    @media (max-width: 768px) {
-      .grid-2 { grid-template-columns:1fr; }
-      .actions { flex-direction: column; align-items: stretch; }
-      .btn { width:100%; }
-      .two-col { grid-template-columns:1fr; }
-      .menu-btn { display:inline-flex; align-items:center; gap:8px; }
-      .nav-links { display:none; }
-      .menu-panel.show { display:block; }
+    .skip-link:focus { top: 14px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      background: rgba(250,250,252,.72);
+      -webkit-backdrop-filter: saturate(180%) blur(22px);
+      backdrop-filter: saturate(180%) blur(22px);
     }
-    @media (max-width: 400px) {
-      .pill { padding:6px 10px; }
-      .brand .logo { width:28px; height:28px; }
+
+    .nav {
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--ink-soft);
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.7), transparent 24%),
+        linear-gradient(145deg, #111827 0%, #0071e3 60%, #8b5cf6 100%);
+      box-shadow: 0 10px 24px rgba(0,113,227,.22);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 999px;
+      background: rgba(255,255,255,.62);
+    }
+
+    .nav-links a {
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: #404045;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background .2s ease, color .2s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: rgba(0,0,0,.06);
+      color: #000;
+      outline: none;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(0,113,227,.22);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); background: #0077ed; box-shadow: 0 12px 26px rgba(0,113,227,.28); }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.7);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--line);
+      background: rgba(250,250,252,.96);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+    }
+    .mobile-menu.show { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 15px 22px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+
+    .hero {
+      position: relative;
+      min-height: calc(100svh - var(--header-h));
+      display: grid;
+      align-items: center;
+      padding: clamp(54px, 8vw, 92px) 0 clamp(44px, 6vw, 76px);
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(12px);
+      opacity: .78;
+    }
+    .hero::before {
+      width: min(42vw, 520px);
+      height: min(42vw, 520px);
+      right: -12vw;
+      top: 8vh;
+      background: radial-gradient(circle, rgba(0,113,227,.16), transparent 68%);
+    }
+    .hero::after {
+      width: min(34vw, 420px);
+      height: min(34vw, 420px);
+      left: -12vw;
+      bottom: -10vh;
+      background: radial-gradient(circle, rgba(124,58,237,.12), transparent 68%);
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(360px, .94fr);
+      gap: clamp(22px, 4vw, 52px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 999px;
+      background: rgba(255,255,255,.74);
+      color: #313136;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0,163,108,.12);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 820px;
+      font-size: clamp(46px, 7.6vw, 96px);
+      line-height: .96;
+      letter-spacing: -.07em;
+      color: #08080a;
+    }
+
+    .hero-lead {
+      max-width: 650px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.38;
+      letter-spacing: -.025em;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .primary-btn {
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 18px 44px rgba(0,113,227,.24);
+    }
+    .primary-btn:hover { transform: translateY(-2px); background: #0077ed; box-shadow: 0 22px 55px rgba(0,113,227,.30); }
+
+    .secondary-btn {
+      border: 1px solid rgba(0,0,0,.11);
+      background: rgba(255,255,255,.76);
+      color: var(--ink-soft);
+    }
+    .secondary-btn:hover { transform: translateY(-2px); background: white; box-shadow: var(--shadow-sm); }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 690px;
+      margin-top: 34px;
+    }
+
+    .metric {
+      padding: 16px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 22px;
+      background: rgba(255,255,255,.66);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-sm);
+    }
+    .metric strong {
+      display: block;
+      font-size: clamp(22px, 3vw, 32px);
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 650;
+    }
+
+    .hero-device {
+      position: relative;
+      min-height: 680px;
+      display: grid;
+      align-items: center;
+    }
+
+    .aurora-card {
+      position: absolute;
+      inset: 6% 3% auto auto;
+      width: min(72%, 430px);
+      height: 490px;
+      border-radius: 44px;
+      background:
+        radial-gradient(circle at 45% 18%, rgba(255,255,255,.72), transparent 22%),
+        radial-gradient(circle at 80% 20%, rgba(41,151,255,.36), transparent 30%),
+        radial-gradient(circle at 18% 84%, rgba(124,58,237,.24), transparent 38%),
+        linear-gradient(145deg, #111827 0%, #1f2937 45%, #020617 100%);
+      box-shadow: var(--shadow-lg);
+      transform: rotate(2deg);
+      overflow: hidden;
+    }
+    .aurora-card::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), transparent 56%);
+    }
+
+    .speech-orb {
+      position: absolute;
+      inset: 46px auto auto 42px;
+      width: 172px;
+      height: 172px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 160deg, #2997ff, #8b5cf6, #ffffff, #2997ff);
+      box-shadow: 0 0 60px rgba(41,151,255,.55);
+      animation: float 6s ease-in-out infinite;
+    }
+    .speech-orb::after {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border-radius: inherit;
+      background: #0b1220;
+      border: 1px solid rgba(255,255,255,.24);
+    }
+
+    .micro-lines {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 52px;
+      display: grid;
+      gap: 11px;
+    }
+    .micro-lines span {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+    .micro-lines span:nth-child(1) { width: 84%; }
+    .micro-lines span:nth-child(2) { width: 68%; }
+    .micro-lines span:nth-child(3) { width: 76%; }
+    .micro-lines span::after {
+      content: "";
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
+      animation: shimmer 3.2s ease-in-out infinite;
+    }
+
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+
+    .lead-card-wrap {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 500px);
+      margin-left: auto;
+      padding: 10px;
+      border-radius: 38px;
+      background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(255,255,255,.46));
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: var(--shadow-md);
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+    }
+
+    .lead-form {
+      border-radius: 30px;
+      padding: clamp(20px, 3vw, 30px);
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .form-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .form-kicker {
+      margin: 0 0 6px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .lead-form h2 {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: clamp(27px, 3vw, 36px);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+    .form-sub {
+      margin: 9px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 15px;
+    }
+    .secure-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: none;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0,163,108,.10);
+      color: #087a53;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+    .form-row { margin-top: 13px; }
+    .field { position: relative; }
+    label {
+      display: block;
+      margin: 0 0 8px;
+      color: #3c3c43;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+    }
+    .input, .select {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.14);
+      background: rgba(248,248,250,.86);
+      color: var(--ink);
+      outline: none;
+      transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+      appearance: none;
+    }
+    .select {
+      padding-right: 42px;
+      background-image: linear-gradient(45deg, transparent 50%, #6e6e73 50%), linear-gradient(135deg, #6e6e73 50%, transparent 50%);
+      background-position: calc(100% - 20px) 22px, calc(100% - 15px) 22px;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+    .input::placeholder { color: #9a9aa0; }
+    .input:hover, .select:hover { background: #fff; border-color: rgba(0,0,0,.20); }
+    .input:focus, .select:focus {
+      background: #fff;
+      border-color: rgba(0,113,227,.82);
+      box-shadow: 0 0 0 5px rgba(0,113,227,.13);
+      transform: translateY(-1px);
+    }
+    .input[aria-invalid="true"], .select[aria-invalid="true"] {
+      border-color: var(--red);
+      box-shadow: 0 0 0 5px rgba(217,48,37,.10);
+    }
+    .error {
+      display: none;
+      margin-top: 7px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .error.show { display: block; }
+
+    .actions {
+      display: grid;
+      gap: 11px;
+      margin-top: 18px;
+    }
+    .submit-btn {
+      width: 100%;
+      min-height: 54px;
+      border: 0;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #0077ed 0%, #006edb 100%);
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: -.015em;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(0,113,227,.26);
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 24px 52px rgba(0,113,227,.32); }
+    .submit-btn:disabled { opacity: .62; cursor: not-allowed; transform: none; box-shadow: none; }
+    .privacy-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .qa-panel {
+      display: none;
+      margin-top: 14px;
+      padding: 13px;
+      border: 1px dashed rgba(0,113,227,.38);
+      border-radius: 18px;
+      background: rgba(0,113,227,.06);
+    }
+    .qa-panel.show { display: block; }
+    .qa-panel p {
+      margin: 0 0 10px;
+      color: #1d4f8f;
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.4;
+    }
+    .qa-btn {
+      min-height: 38px;
+      border: 1px solid rgba(0,113,227,.32);
+      border-radius: 999px;
+      background: white;
+      color: #0b64c0;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 8px 13px;
+    }
+
+    section { padding: clamp(58px, 9vw, 110px) 0; }
+    section[id] { scroll-margin-top: calc(var(--header-h) + 18px); }
+
+    .section-heading {
+      max-width: 800px;
+      margin: 0 auto clamp(24px, 4vw, 44px);
+      text-align: center;
+    }
+    .section-heading .kicker {
+      margin: 0 0 9px;
+      color: var(--blue);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 900;
+    }
+    .section-heading h2 {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -.06em;
+    }
+    .section-heading p {
+      margin: 14px auto 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.45;
+      letter-spacing: -.02em;
+    }
+
+    .moments-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .moment-card,
+    .program-card,
+    .method-card,
+    .faq-card {
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.82);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .moment-card:hover,
+    .program-card:hover,
+    .method-card:hover,
+    .faq-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0,0,0,.14);
+    }
+    .moment-card { padding: 22px; min-height: 230px; }
+    .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background:
+        linear-gradient(145deg, rgba(0,113,227,.12), rgba(124,58,237,.10)),
+        #fff;
+      border: 1px solid rgba(0,0,0,.07);
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+    .moment-card h3,
+    .program-card h3,
+    .method-card h3,
+    .faq-card h3 {
+      margin: 18px 0 8px;
+      color: var(--ink-soft);
+      font-size: 21px;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+    .moment-card p,
+    .program-card p,
+    .method-card p,
+    .faq-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .showcase {
+      padding-top: 0;
+    }
+    .showcase-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 42px;
+      border: 1px solid rgba(0,0,0,.08);
+      min-height: 520px;
+      background:
+        radial-gradient(circle at 80% 5%, rgba(41,151,255,.26), transparent 26rem),
+        radial-gradient(circle at 18% 85%, rgba(124,58,237,.18), transparent 28rem),
+        linear-gradient(145deg, #111827 0%, #0b1220 62%, #020617 100%);
+      box-shadow: var(--shadow-lg);
+      color: #fff;
+    }
+    .showcase-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: end;
+      min-height: 520px;
+      padding: clamp(28px, 5vw, 56px);
+    }
+    .showcase h2 {
+      margin: 0;
+      max-width: 560px;
+      font-size: clamp(36px, 5vw, 72px);
+      line-height: .98;
+      letter-spacing: -.06em;
+    }
+    .showcase p {
+      margin: 18px 0 0;
+      max-width: 520px;
+      color: rgba(255,255,255,.74);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.45;
+      letter-spacing: -.02em;
+    }
+    .showcase-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .showcase-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 64px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.12);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+    .showcase-list span {
+      color: rgba(255,255,255,.76);
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .showcase-list strong {
+      font-size: 14px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .program-card { padding: 26px; min-height: 310px; display: flex; flex-direction: column; }
+    .program-card .label {
+      align-self: flex-start;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0,113,227,.10);
+      color: #0b64c0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .program-card ul {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .program-card li {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 8px;
+    }
+    .program-card li::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(0,163,108,.12);
+      color: #087a53;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      counter-reset: method;
+    }
+    .method-card {
+      min-height: 260px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .method-card::before {
+      counter-increment: method;
+      content: "0" counter(method);
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+    }
+    .method-card::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -80px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,113,227,.16), transparent 64%);
+    }
+
+    .about-panel {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .about-card {
+      border-radius: 42px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .founder-card {
+      padding: clamp(28px, 4vw, 42px);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(0,113,227,.16), transparent 26rem),
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.78));
+    }
+    .founder-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.06em;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.76), transparent 22%),
+        linear-gradient(145deg, #111827, #0071e3 58%, #8b5cf6);
+      box-shadow: 0 22px 50px rgba(0,113,227,.24);
+    }
+    .founder-card h2 {
+      margin: 26px 0 12px;
+      font-size: clamp(31px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+    .founder-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+      letter-spacing: -.015em;
+    }
+    .founder-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 26px;
+    }
+    .founder-stat {
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.72);
+    }
+    .founder-stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+    .founder-stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .mission-card { padding: clamp(28px, 4vw, 42px); }
+    .mission-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .mission-block {
+      padding: 24px;
+      border-radius: 28px;
+      background: #f5f5f7;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .mission-block h3 {
+      margin: 0 0 9px;
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -.04em;
+    }
+    .mission-block p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .faq-card { padding: 24px; }
+    .faq-card h3 { margin-top: 0; }
+
+    .final-cta {
+      text-align: center;
+      padding: clamp(58px, 9vw, 100px) 0;
+    }
+    .final-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 42px;
+      padding: clamp(34px, 6vw, 76px) clamp(22px, 5vw, 72px);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.32), transparent 16rem),
+        linear-gradient(145deg, #111827 0%, #0b1220 54%, #020617 100%);
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+    .final-box h2 {
+      margin: 0 auto;
+      max-width: 820px;
+      font-size: clamp(36px, 5.5vw, 72px);
+      line-height: 1;
+      letter-spacing: -.065em;
+    }
+    .final-box p {
+      margin: 18px auto 0;
+      max-width: 640px;
+      color: rgba(255,255,255,.72);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.45;
+    }
+    .final-box .primary-btn { margin-top: 30px; }
+
+    .site-footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 3000;
+      right: 16px;
+      top: calc(var(--header-h) + 14px);
+      width: min(92vw, 380px);
+      display: none;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.96);
+      color: var(--ink);
+      box-shadow: var(--shadow-md);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+    .toast.success { border-color: rgba(0,163,108,.24); }
+    .toast.error { border-color: rgba(217,48,37,.24); }
+    .toast.show { display: block; animation: toastIn .22s ease-out; }
+    @keyframes toastIn { from { transform: translateY(-8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .showcase-inner,
+      .about-panel { grid-template-columns: 1fr; }
+      .hero-device { min-height: auto; }
+      .aurora-card { display: none; }
+      .lead-card-wrap { margin: 28px auto 0; }
+      .moments-grid,
+      .method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .program-grid,
+      .faq-grid { grid-template-columns: 1fr; }
+      .showcase-inner { align-items: start; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --header-h: 56px; }
+      .nav-links, .nav-cta { display: none; }
+      .menu-btn { display: inline-flex; }
+      .hero { min-height: auto; padding-top: 46px; }
+      .metric-strip, .moments-grid, .method-grid, .founder-stats { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-header { display: block; }
+      .secure-pill { margin-top: 14px; }
+      .lead-card-wrap { border-radius: 30px; padding: 8px; }
+      .lead-form { border-radius: 24px; }
+      .showcase-panel, .about-card, .final-box { border-radius: 30px; }
+      .showcase-list li { align-items: flex-start; flex-direction: column; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (max-width: 420px) {
+      .container { width: min(100% - 26px, var(--container)); }
+      h1 { font-size: clamp(42px, 14vw, 56px); }
+      .hero-lead { font-size: 17px; }
+      .hero-actions { align-items: stretch; }
+      .primary-btn, .secondary-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#lead">Skip to consultation form</a>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <header>
-    <div class="nav">
-      <div class="brand"><div class="logo" aria-hidden="true">SP</div>SpeakingPad</div>
-      <nav class="nav-links" aria-label="Primary">
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="SpeakingPad home">
+        <span class="brand-mark" aria-hidden="true">SP</span>
+        <span>SpeakingPad</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#moments">Outcomes</a>
         <a href="#programs">Programs</a>
+        <a href="#method">Method</a>
         <a href="#about">About</a>
-        <a href="#mission">Mission & Vision</a>
       </nav>
-      <button id="menuBtn" class="menu-btn" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle menu">Menu ▾</button>
+      <a class="nav-cta" href="#lead">Free Consultation</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
     </div>
-    <div id="mobileMenu" class="menu-panel" role="dialog" aria-modal="false">
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#moments">Outcomes</a>
       <a href="#programs">Programs</a>
+      <a href="#method">Method</a>
       <a href="#about">About</a>
-      <a href="#mission">Mission & Vision</a>
+      <a href="#lead">Free Consultation</a>
     </div>
   </header>
 
-  <section class="hero" id="lead">
-    <div class="container hero-grid">
-      <div>
-        <h1>Speak with clarity. Lead with confidence.</h1>
-        <p class="lead">Practical, outcome-focused coaching for interviews, public speaking, and executive communication.</p>
-        <div class="points" aria-label="Key focus areas">
-          <span class="pill">Interview Preparation</span>
-          <span class="pill">Public Speaking</span>
-          <span class="pill">Presentation Skills</span>
-          <span class="pill">Confidence Building</span>
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Communication coaching for high-stakes moments</p>
+          <h1 id="heroTitle">Speak with clarity. Lead with confidence.</h1>
+          <p class="hero-lead">SpeakingPad helps students and professionals turn hesitation into presence through structured practice, sharp feedback, and communication playbooks that work in real rooms.</p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#lead">Book a free consultation <span aria-hidden="true">→</span></a>
+            <a class="secondary-btn" href="#programs">Explore programs</a>
+          </div>
+          <div class="metric-strip" aria-label="SpeakingPad credibility highlights">
+            <div class="metric"><strong>50+</strong><span>Best Speaker awards won</span></div>
+            <div class="metric"><strong>100+</strong><span>Learners mentored in communication</span></div>
+            <div class="metric"><strong>10+</strong><span>Years of corporate speaking exposure</span></div>
+          </div>
+        </div>
+
+        <div class="hero-device reveal" id="lead">
+          <div class="aurora-card" aria-hidden="true">
+            <div class="speech-orb"></div>
+            <div class="micro-lines"><span></span><span></span><span></span></div>
+          </div>
+
+          <div class="lead-card-wrap">
+            <form id="leadForm" class="lead-form" action="https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec" method="POST" target="hiddenLeadFrame" novalidate>
+              <div class="form-header">
+                <div>
+                  <p class="form-kicker">Free consultation</p>
+                  <h2>Find your speaking growth plan.</h2>
+                  <p class="form-sub">Share your details. We will understand your goal and suggest the right path.</p>
+                </div>
+                <span class="secure-pill" aria-label="Private form"><span aria-hidden="true">●</span> Private</span>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="name">Full Name *</label>
+                  <input class="input" id="name" name="name" required autocomplete="name" placeholder="Your full name">
+                  <div class="error" id="err-name">Please enter your name.</div>
+                </div>
+              </div>
+
+              <div class="form-grid form-row">
+                <div class="field">
+                  <label for="email">Email *</label>
+                  <input class="input" id="email" name="email" type="email" required inputmode="email" autocomplete="email" placeholder="you@example.com">
+                  <div class="error" id="err-email">Please enter a valid email.</div>
+                </div>
+                <div class="field">
+                  <label for="phone">Phone Number *</label>
+                  <input class="input" id="phone" name="phone" type="tel" required inputmode="tel" autocomplete="tel" placeholder="10-digit mobile">
+                  <div class="error" id="err-phone">Please enter a valid phone number.</div>
+                </div>
+              </div>
+
+              <div class="form-grid form-row">
+                <div class="field">
+                  <label for="status">Current Status *</label>
+                  <select class="select" id="status" name="status" required>
+                    <option value="">Select</option>
+                    <option>Working Professional</option>
+                    <option>Fresher</option>
+                  </select>
+                  <div class="error" id="err-status">Please select an option.</div>
+                </div>
+                <div class="field" id="experienceField" style="display:none;">
+                  <label for="experience">Years of Experience</label>
+                  <input class="input" id="experience" name="experience" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 3.5">
+                  <div class="error" id="err-experience">Please enter a valid experience value.</div>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button class="submit-btn" id="submitBtn" type="submit">Submit consultation request</button>
+                <p class="privacy-note">Your details are used only to contact you about SpeakingPad coaching.</p>
+              </div>
+
+              <div class="qa-panel" id="qaPanel" aria-live="polite">
+                <p>Lead-capture QA mode is active. This uses the same form and Apps Script endpoint as the live user flow.</p>
+                <button class="qa-btn" id="qaBtn" type="button">Send test entry to Google Sheet</button>
+              </div>
+            </form>
+            <iframe name="hiddenLeadFrame" title="Lead submission frame" style="display:none"></iframe>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="card">
-        <form id="leadForm" class="form" novalidate>
-          <h2>Free Consultation</h2>
-          <p class="sub">Share your details and we’ll get back within 24 hours.</p>
-
-          <div class="row">
-            <div class="field">
-              <label class="label" for="name">Full Name *</label>
-              <input class="input" id="name" name="name" required autocomplete="name" placeholder="Your full name">
-              <div class="error" id="err-name">Please enter your name.</div>
-            </div>
-          </div>
-
-          <div class="grid-2 row">
-            <div class="field">
-              <label class="label" for="email">Email *</label>
-              <input class="input" id="email" name="email" type="email" required inputmode="email" autocomplete="email" placeholder="you@example.com">
-              <div class="error" id="err-email">Please enter a valid email.</div>
-            </div>
-            <div class="field">
-              <label class="label" for="phone">Phone Number *</label>
-              <input class="input" id="phone" name="phone" type="tel" required inputmode="tel" autocomplete="tel" placeholder="10-digit mobile">
-              <div class="error" id="err-phone">Please enter a valid phone number.</div>
-            </div>
-          </div>
-
-          <div class="grid-2 row">
-            <div class="field">
-              <label class="label" for="status">Current Status *</label>
-              <select class="select" id="status" name="status" required>
-                <option value="">Select</option>
-                <option>Working Professional</option>
-                <option>Fresher</option>
-              </select>
-              <div class="error" id="err-status">Please select an option.</div>
-            </div>
-            <div class="field" id="experienceField" style="display:none;">
-              <label class="label" for="experience">Years of Experience</label>
-              <input class="input" id="experience" name="experience" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 3.5">
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn" id="submitBtn" type="submit">Submit</button>
-            <span class="note">We never share your details.</span>
-          </div>
-        </form>
+    <section id="moments">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="kicker">Built for outcomes</p>
+          <h2>Four moments where communication changes your trajectory.</h2>
+          <p>SpeakingPad focuses on the situations where a better sentence, stronger structure, and calmer presence can change the result.</p>
+        </div>
+        <div class="moments-grid">
+          <article class="moment-card reveal"><div class="icon" aria-hidden="true">🎙️</div><h3>Public speaking</h3><p>Move from nervous delivery to structured, audience-first speaking with clear openings, transitions, stories, and closures.</p></article>
+          <article class="moment-card reveal"><div class="icon" aria-hidden="true">💼</div><h3>Interviews</h3><p>Build answers that sound sharp, personal, and credible without memorized scripts or generic frameworks.</p></article>
+          <article class="moment-card reveal"><div class="icon" aria-hidden="true">📊</div><h3>Presentations</h3><p>Learn how to simplify complex ideas, create executive summaries, and present with business clarity.</p></article>
+          <article class="moment-card reveal"><div class="icon" aria-hidden="true">🧭</div><h3>Leadership presence</h3><p>Speak in meetings with more authority, handle questions better, and influence stakeholders with composure.</p></article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="programs">
-    <div class="container">
-      <div class="two-col">
-        <div class="card-plain">
-          <div class="section-title">Programs</div>
-          <p class="muted">Practice-first formats tailored to your goals.</p>
-          <ul class="muted">
-            <li>1:1 Coaching — personalized plan, weekly drills, rapid iteration.</li>
-            <li>Cohort Program — small groups, peer reviews, capstone presentation.</li>
-            <li>Corporate Workshops — presentations, stakeholder comms, storytelling.</li>
+    <section class="showcase" aria-labelledby="showcaseTitle">
+      <div class="container showcase-panel reveal">
+        <div class="showcase-inner">
+          <div>
+            <h2 id="showcaseTitle">Less noise. More signal. Every session is practice-led.</h2>
+            <p>The program avoids motivational lectures. It gives you focused drills, live feedback, and repeatable structures that you can use the next time you speak.</p>
+          </div>
+          <ul class="showcase-list" aria-label="SpeakingPad learning system">
+            <li><span>Before you speak</span><strong>Structure your message</strong></li>
+            <li><span>While you speak</span><strong>Improve delivery and presence</strong></li>
+            <li><span>After you speak</span><strong>Review, refine, repeat</strong></li>
+            <li><span>Final outcome</span><strong>Confidence backed by practice</strong></li>
           </ul>
         </div>
-        <div class="card-plain" id="about">
-          <div class="section-title">About Arpit Gupta</div>
-          <p class="muted">Arpit Gupta is a leader and public speaking coach with 9+ years of experience across Moody’s Analytics, Paytm, Rupeek, Cars24 Australia, and Info Edge (JobHai). He has delivered talks to international clients, won 50+ Best Speaker awards, and mentored 100+ learners in communication and confidence.</p>
+      </div>
+    </section>
+
+    <section id="programs">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="kicker">Programs</p>
+          <h2>Choose the format that matches your ambition.</h2>
+          <p>Each program is designed around practice, feedback, and visible improvement rather than theory-heavy training.</p>
+        </div>
+        <div class="program-grid">
+          <article class="program-card reveal"><span class="label">Personal</span><h3>1:1 Speaking Coaching</h3><p>A focused path for people who want individual attention and fast iteration.</p><ul><li>Personal communication diagnosis</li><li>Weekly speaking drills</li><li>Interview and presentation practice</li><li>Feedback after every session</li></ul></article>
+          <article class="program-card reveal"><span class="label">Community</span><h3>Small Cohort Program</h3><p>A peer-learning environment for students and early professionals.</p><ul><li>Small group speaking practice</li><li>Peer reviews and trainer feedback</li><li>Confidence-building exercises</li><li>Final capstone presentation</li></ul></article>
+          <article class="program-card reveal"><span class="label">Teams</span><h3>Corporate Workshop</h3><p>For teams that need sharper presentations, storytelling, and stakeholder communication.</p><ul><li>Executive communication basics</li><li>Business storytelling modules</li><li>Meeting and review-room presence</li><li>Custom workshop format</li></ul></article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="mission">
-    <div class="container two-col">
-      <div class="card-plain">
-        <div class="section-title">Mission</div>
-        <p class="muted">Enable every learner to communicate with clarity and confidence by combining deliberate practice, actionable feedback, and simple, repeatable playbooks.</p>
+    <section id="method">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="kicker">The method</p>
+          <h2>A simple system for measurable speaking improvement.</h2>
+          <p>The learning loop is deliberately simple because confidence is built by repeated, high-quality practice.</p>
+        </div>
+        <div class="method-grid">
+          <article class="method-card reveal"><h3>Diagnose</h3><p>Identify your current speaking blockers: structure, clarity, confidence, fluency, articulation, or presence.</p></article>
+          <article class="method-card reveal"><h3>Build</h3><p>Create speaking frameworks for introductions, interviews, presentations, storytelling, and impromptu answers.</p></article>
+          <article class="method-card reveal"><h3>Practice</h3><p>Speak live, record attempts, handle questions, and repeat drills until the new behavior feels natural.</p></article>
+          <article class="method-card reveal"><h3>Refine</h3><p>Use direct feedback to improve word choice, pacing, energy, confidence, and message sharpness.</p></article>
+        </div>
       </div>
-      <div class="card-plain">
-        <div class="section-title">Vision</div>
-        <p class="muted">Build India’s most trusted communication academy—where students and professionals consistently crack interviews, lead teams, and influence rooms with poise.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="container">© <span id="y"></span> SpeakingPad • All rights reserved</footer>
+    <section id="about">
+      <div class="container about-panel">
+        <article class="about-card founder-card reveal">
+          <div class="founder-avatar" aria-hidden="true">AG</div>
+          <h2>Led by Arpit Gupta.</h2>
+          <p>Arpit brings a rare combination of corporate leadership, analytics storytelling, client-facing communication, and competitive public speaking experience. He has represented companies in high-stakes client settings, won 50+ Best Speaker awards, and mentored 100+ learners.</p>
+          <div class="founder-stats">
+            <div class="founder-stat"><strong>5</strong><span>Industries of professional exposure</span></div>
+            <div class="founder-stat"><strong>100+</strong><span>People coached and mentored</span></div>
+          </div>
+        </article>
+        <article class="about-card mission-card reveal">
+          <div class="mission-grid">
+            <div class="mission-block"><h3>Mission</h3><p>Enable every learner to communicate with clarity and confidence through deliberate practice, actionable feedback, and simple playbooks.</p></div>
+            <div class="mission-block"><h3>Vision</h3><p>Build one of India’s most trusted communication academies for students and professionals who want to crack interviews, lead rooms, and influence with poise.</p></div>
+            <div class="mission-block"><h3>What makes it different</h3><p>SpeakingPad combines public speaking rigor with business communication practicality, so learners do not just speak better, they perform better in real career moments.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="kicker">Questions</p>
+          <h2>Clear answers before you begin.</h2>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-card reveal"><h3>Who is this for?</h3><p>Students, freshers, working professionals, founders, and managers who want to improve interviews, presentations, meetings, or stage speaking.</p></article>
+          <article class="faq-card reveal"><h3>Is this theory-heavy?</h3><p>No. The learning is practice-led. You speak, receive feedback, improve structure, and repeat until your delivery becomes stronger.</p></article>
+          <article class="faq-card reveal"><h3>How does the consultation work?</h3><p>You share your details through the form. SpeakingPad reviews your current goal and helps you choose the most relevant learning path.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container final-box reveal">
+        <h2>Your next opportunity deserves your clearest voice.</h2>
+        <p>Start with a free consultation and get a directionally clear speaking improvement plan.</p>
+        <a class="primary-btn" href="#lead">Start now <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> SpeakingPad. All rights reserved.</span>
+      <span>Clarity. Confidence. Communication.</span>
+    </div>
+  </footer>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (menuBtn) {
-      menuBtn.addEventListener('click', () => {
-        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-        menuBtn.setAttribute('aria-expanded', String(!expanded));
-        mobileMenu.classList.toggle('show');
+    (function () {
+      const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
+
+      const year = document.getElementById("year");
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const form = document.getElementById("leadForm");
+      const toast = document.getElementById("toast");
+      const submitBtn = document.getElementById("submitBtn");
+      const statusSelect = document.getElementById("status");
+      const expField = document.getElementById("experienceField");
+      const qaPanel = document.getElementById("qaPanel");
+      const qaBtn = document.getElementById("qaBtn");
+      const fields = {
+        name: document.getElementById("name"),
+        email: document.getElementById("email"),
+        phone: document.getElementById("phone"),
+        status: document.getElementById("status"),
+        experience: document.getElementById("experience")
+      };
+
+      if (year) year.textContent = new Date().getFullYear();
+
+      function closeMenu() {
+        if (!mobileMenu || !menuBtn) return;
+        mobileMenu.classList.remove("show");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", function () {
+          const expanded = menuBtn.getAttribute("aria-expanded") === "true";
+          menuBtn.setAttribute("aria-expanded", String(!expanded));
+          mobileMenu.classList.toggle("show", !expanded);
+        });
+        mobileMenu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+      }
+
+      function showToast(message, type) {
+        toast.textContent = message;
+        toast.className = "toast show " + (type || "success");
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(function () {
+          toast.classList.remove("show");
+        }, 5200);
+      }
+
+      function setFieldError(input, errorId, hasError) {
+        const error = document.getElementById(errorId);
+        if (!input || !error) return;
+        input.setAttribute("aria-invalid", String(hasError));
+        error.classList.toggle("show", hasError);
+      }
+
+      function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+      }
+
+      function isValidPhone(value) {
+        const digits = value.replace(/\D/g, "");
+        return digits.length >= 10 && digits.length <= 13;
+      }
+
+      function validateForm() {
+        let valid = true;
+        const nameInvalid = fields.name.value.trim().length < 2;
+        const emailInvalid = !isValidEmail(fields.email.value);
+        const phoneInvalid = !isValidPhone(fields.phone.value);
+        const statusInvalid = fields.status.value.trim() === "";
+        const experienceVisible = fields.status.value === "Working Professional";
+        const experienceValue = fields.experience.value.trim();
+        const experienceInvalid = experienceVisible && experienceValue !== "" && Number(experienceValue) < 0;
+
+        setFieldError(fields.name, "err-name", nameInvalid);
+        setFieldError(fields.email, "err-email", emailInvalid);
+        setFieldError(fields.phone, "err-phone", phoneInvalid);
+        setFieldError(fields.status, "err-status", statusInvalid);
+        setFieldError(fields.experience, "err-experience", experienceInvalid);
+
+        valid = !(nameInvalid || emailInvalid || phoneInvalid || statusInvalid || experienceInvalid);
+        return valid;
+      }
+
+      function toggleExperience() {
+        const isWorking = statusSelect.value === "Working Professional";
+        expField.style.display = isWorking ? "block" : "none";
+        if (!isWorking) {
+          fields.experience.value = "";
+          setFieldError(fields.experience, "err-experience", false);
+        }
+      }
+
+      statusSelect.addEventListener("change", toggleExperience);
+      Object.keys(fields).forEach(function (key) {
+        fields[key].addEventListener("input", function () {
+          fields[key].setAttribute("aria-invalid", "false");
+          const error = document.getElementById("err-" + key);
+          if (error) error.classList.remove("show");
+        });
       });
-      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        mobileMenu.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      }));
-    }
 
-    const form = document.getElementById('leadForm');
-    const toast = document.getElementById('toast');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusSelect = document.getElementById('status');
-    const expField = document.getElementById('experienceField');
+      async function submitLead() {
+        const formData = new FormData(form);
+        await fetch(APP_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        });
+      }
 
-    const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        if (!validateForm()) {
+          showToast("Please fix the highlighted fields before submitting.", "error");
+          return;
+        }
 
-    statusSelect.addEventListener('change', () => {
-      expField.style.display = statusSelect.value === 'Working Professional' ? 'block' : 'none';
-    });
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
 
-    function showToast(msg, isErr=false) {
-      toast.textContent = msg;
-      toast.className = 'toast' + (isErr ? ' err' : '');
-      toast.style.display = 'block';
-      window.clearTimeout(showToast._
+        try {
+          await submitLead();
+          showToast("Thank you. Your consultation request has been submitted.", "success");
+          form.reset();
+          toggleExperience();
+        } catch (error) {
+          showToast("Submission could not be completed. Please check the Apps Script deployment and try again.", "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit consultation request";
+        }
+      });
+
+      function enableQaMode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("qa") !== "1") return;
+        qaPanel.classList.add("show");
+        qaBtn.addEventListener("click", function () {
+          const stamp = new Date().toISOString();
+          fields.name.value = "QA Test SpeakingPad " + stamp;
+          fields.email.value = "qa-test-speakingpad@example.com";
+          fields.phone.value = "9999999999";
+          fields.status.value = "Working Professional";
+          toggleExperience();
+          fields.experience.value = "10";
+          form.requestSubmit();
+        });
+      }
+
+      const revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12 });
+        revealItems.forEach(function (item) { observer.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add("visible"); });
+      }
+
+      toggleExperience();
+      enableQaMode();
+    })();
+  </script>
+</body>
+</html>
