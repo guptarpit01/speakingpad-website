@@ -1173,6 +1173,7 @@
               </div>
             </form>
             <iframe name="hiddenLeadFrame" title="Lead submission frame" style="display:none"></iframe>
+            <noscript><p class="form-footnote">JavaScript is disabled. Please enable JavaScript to submit the consultation request.</p></noscript>
           </div>
         </div>
       </div>
@@ -1397,16 +1398,22 @@
         });
       });
 
-      async function submitLead() {
-        const formData = new FormData(form);
-        await fetch(APP_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData
-        });
+      function submitLeadThroughIframe() {
+        // GitHub Pages -> Google Apps Script is cross-origin.
+        // A native HTML form POST to a hidden iframe is the most reliable no-CORS pattern.
+        form.setAttribute("action", APP_SCRIPT_URL);
+        form.setAttribute("method", "POST");
+        form.setAttribute("target", "hiddenLeadFrame");
+        form.setAttribute("enctype", "application/x-www-form-urlencoded");
+        HTMLFormElement.prototype.submit.call(form);
       }
 
-      form.addEventListener("submit", async function (event) {
+      function restoreSubmitButton() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit consultation request";
+      }
+
+      form.addEventListener("submit", function (event) {
         event.preventDefault();
         if (!validateForm()) {
           showToast("Please fix the highlighted fields before submitting.", "error");
@@ -1416,17 +1423,16 @@
         submitBtn.disabled = true;
         submitBtn.textContent = "Submitting...";
 
-        try {
-          await submitLead();
+        submitLeadThroughIframe();
+
+        // Apps Script iframe response cannot be inspected cross-origin, so we confirm after dispatch.
+        // Verify with ?qa=1 and the Google Sheet row.
+        window.setTimeout(function () {
           showToast("Thank you. Your consultation request has been submitted.", "success");
           form.reset();
           toggleExperience();
-        } catch (error) {
-          showToast("Submission could not be completed. Please check the Apps Script deployment and try again.", "error");
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Submit consultation request";
-        }
+          restoreSubmitButton();
+        }, 900);
       });
 
       function enableQaMode() {
