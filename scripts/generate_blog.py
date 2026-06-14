@@ -23,6 +23,7 @@ import random
 import datetime
 import urllib.request
 import urllib.error
+import html
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -256,6 +257,66 @@ def update_sitemap(existing_data: list):
         f.write(sitemap_content)
 
 
+def post_to_linkedin(html_content: str, title: str):
+    """Converts HTML to text and posts it to the LinkedIn Page via API."""
+    access_token = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+    page_id = os.environ.get("LINKEDIN_PAGE_ID")
+    
+    if not access_token or not page_id:
+        print("⏭️  LinkedIn credentials not found. Skipping LinkedIn post.")
+        return
+
+    print("💼 Formatting article for LinkedIn and posting...")
+    
+    # Convert HTML to LinkedIn plain text
+    text = re.sub(r'<(br|/p|/h[1-6]|/div|/blockquote)>\s*', '\n\n', html_content, flags=re.IGNORECASE)
+    text = re.sub(r'<li>\s*', '• ', text, flags=re.IGNORECASE)
+    def uppercase_heading(match):
+        return match.group(1).upper()
+    text = re.sub(r'<h[1-6][^>]*>(.*?)</h[1-6]>', uppercase_heading, text, flags=re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', '', text)
+    text = html.unescape(text)
+    text = re.sub(r'\n{3,}', '\n\n', text).strip()
+    
+    # LinkedIn character limit is 3000
+    post_text = f"📢 {title.upper()}\n\n{text}"
+    if len(post_text) > 3000:
+        post_text = post_text[:2997] + "..."
+        
+    url = "https://api.linkedin.com/v2/ugcPosts"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "author": f"urn:li:organization:{page_id}",
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": post_text
+                },
+                "shareMediaCategory": "NONE"
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+        }
+    }
+    
+    try:
+        req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers=headers, method='POST')
+        with urllib.request.urlopen(req, timeout=30) as response:
+            result = json.loads(response.read().decode('utf-8'))
+            print("✅ Successfully posted to LinkedIn:", result.get('id'))
+    except urllib.error.HTTPError as e:
+        print(f"❌ Failed to post to LinkedIn (HTTP {e.code}):")
+        print(e.read().decode('utf-8', errors='ignore'))
+    except Exception as e:
+        print(f"❌ Failed to post to LinkedIn: {e}")
+
+
 def main():
     print("🚀 SpeakingPad Blog Generator")
     print("=" * 40)
@@ -309,6 +370,9 @@ def main():
     # Update Sitemap for SEO
     update_sitemap(existing)
     print("🗺️  Updated sitemap.xml for Google discovery")
+
+    # Post to LinkedIn
+    post_to_linkedin(article.get("body_html", ""), article["title"])
 
     print("✅ Done!")
 
