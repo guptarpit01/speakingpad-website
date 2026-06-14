@@ -1,1 +1,23 @@
+name: Test Automation
 
+on:
+  workflow_dispatch:
+
+jobs:
+  create-test-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create test file
+        run: |
+          echo "Automation is working" > automation-test.txt
+
+      - name: Commit file
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add automation-test.txt
+          git commit -m "Test automation"
+          git push
