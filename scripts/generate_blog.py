@@ -257,16 +257,15 @@ def update_sitemap(existing_data: list):
         f.write(sitemap_content)
 
 
-def post_to_linkedin(html_content: str, title: str):
-    """Converts HTML to text and posts it to the LinkedIn Page via API."""
-    access_token = os.environ.get("LINKEDIN_ACCESS_TOKEN")
-    page_id = os.environ.get("LINKEDIN_PAGE_ID")
+def post_to_webhook(html_content: str, title: str, slug: str):
+    """Converts HTML to text and sends it to a Make.com webhook to post on LinkedIn."""
+    webhook_url = os.environ.get("MAKE_WEBHOOK_URL")
     
-    if not access_token or not page_id:
-        print("⏭️  LinkedIn credentials not found. Skipping LinkedIn post.")
+    if not webhook_url:
+        print("⏭️  Make.com Webhook URL not found. Skipping LinkedIn post.")
         return
 
-    print("💼 Formatting article for LinkedIn and posting...")
+    print("💼 Formatting article for LinkedIn and sending to Webhook...")
     
     # Convert HTML to LinkedIn plain text
     text = re.sub(r'<(br|/p|/h[1-6]|/div|/blockquote)>\s*', '\n\n', html_content, flags=re.IGNORECASE)
@@ -280,41 +279,28 @@ def post_to_linkedin(html_content: str, title: str):
     
     # LinkedIn character limit is 3000
     post_text = f"📢 {title.upper()}\n\n{text}"
-    if len(post_text) > 3000:
-        post_text = post_text[:2997] + "..."
+    if len(post_text) > 2800:
+        post_text = post_text[:2797] + "..."
         
-    url = "https://api.linkedin.com/v2/ugcPosts"
+    # Append the article URL to the bottom of the post
+    article_url = f"https://speakingpad.in/posts/{slug}.html"
+    post_text += f"\n\n🔗 Read the full article here: {article_url}"
+        
     headers = {
-        "Authorization": f"Bearer {access_token}",
-        "X-Restli-Protocol-Version": "2.0.0",
         "Content-Type": "application/json"
     }
     payload = {
-        "author": f"urn:li:organization:{page_id}",
-        "lifecycleState": "PUBLISHED",
-        "specificContent": {
-            "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": post_text
-                },
-                "shareMediaCategory": "NONE"
-            }
-        },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
+        "title": title,
+        "linkedin_text": post_text,
+        "article_url": article_url
     }
     
     try:
-        req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers=headers, method='POST')
+        req = urllib.request.Request(webhook_url, data=json.dumps(payload).encode('utf-8'), headers=headers, method='POST')
         with urllib.request.urlopen(req, timeout=30) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            print("✅ Successfully posted to LinkedIn:", result.get('id'))
-    except urllib.error.HTTPError as e:
-        print(f"❌ Failed to post to LinkedIn (HTTP {e.code}):")
-        print(e.read().decode('utf-8', errors='ignore'))
+            print("✅ Successfully sent article to Make.com Webhook!")
     except Exception as e:
-        print(f"❌ Failed to post to LinkedIn: {e}")
+        print(f"❌ Failed to send to Webhook: {e}")
 
 
 def main():
@@ -371,8 +357,8 @@ def main():
     update_sitemap(existing)
     print("🗺️  Updated sitemap.xml for Google discovery")
 
-    # Post to LinkedIn
-    post_to_linkedin(article.get("body_html", ""), article["title"])
+    # Post to LinkedIn via Webhook
+    post_to_webhook(article.get("body_html", ""), article["title"], slug)
 
     print("✅ Done!")
 

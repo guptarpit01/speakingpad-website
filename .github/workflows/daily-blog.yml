@@ -32,8 +32,7 @@ jobs:
       - name: Generate blog article
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          LINKEDIN_PAGE_ID: ${{ secrets.LINKEDIN_PAGE_ID }}
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
         run: python scripts/generate_blog.py
 
       - name: Commit and push new article
