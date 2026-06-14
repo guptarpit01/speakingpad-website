@@ -3,15 +3,11 @@ name: Test Automation
 on:
 workflow_dispatch:
 
-permissions:
-contents: write
-
 jobs:
 test:
 runs-on: ubuntu-latest
 
 ```
 steps:
-  - name: Test
-    run: echo "Hello World"
+  - run: echo "Hello World"
 ```
