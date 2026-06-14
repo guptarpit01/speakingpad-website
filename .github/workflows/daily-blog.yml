@@ -1,0 +1,49 @@
+# ──────────────────────────────────────────────────────────────
+# SpeakingPad — Daily Blog Article Generator
+# Runs every day at 6:00 AM IST (00:30 UTC) via GitHub Actions.
+# Generates a new article using Gemini, commits it, and pushes.
+# ──────────────────────────────────────────────────────────────
+
+name: Daily Blog Post
+
+on:
+  schedule:
+    # 6:00 AM IST = 00:30 UTC
+    - cron: '30 0 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate blog article
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python scripts/generate_blog.py
+
+      - name: Commit and push new article
+        run: |
+          git config user.name "SpeakingPad Blog Bot"
+          git config user.email "blog-bot@speakingpad.in"
+          git add posts/ blog-data.json
+          # Only commit if there are changes
+          if git diff --cached --quiet; then
+            echo "No new article generated. Nothing to commit."
+          else
+            DATE=$(date +%Y-%m-%d)
+            git commit -m "📝 New blog article — ${DATE}"
+            git push
+          fi

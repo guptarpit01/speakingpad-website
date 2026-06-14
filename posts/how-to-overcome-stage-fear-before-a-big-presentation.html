@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How to Overcome Stage Fear Before a Big Presentation — SpeakingPad Blog</title>
+  <meta name="description" content="Learn practical, coach-approved techniques to overcome stage fear and deliver confident presentations in interviews, meetings, and college events.">
+  <meta name="theme-color" content="#f5f5f7">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg:#f5f5f7;
+      --surface:#ffffff;
+      --surface-soft:#fbfbfd;
+      --ink:#111114;
+      --ink-soft:#2b2b31;
+      --muted:#6e6e73;
+      --muted-2:#8e8e93;
+      --line:rgba(17,17,20,.10);
+      --line-strong:rgba(17,17,20,.16);
+      --blue:#0071e3;
+      --blue-2:#2997ff;
+      --green:#10b981;
+      --red:#ef4444;
+      --navy:#07111f;
+      --radius-xl:34px;
+      --radius-lg:26px;
+      --radius-md:18px;
+      --shadow:0 24px 70px rgba(0,0,0,.09);
+      --shadow-soft:0 14px 40px rgba(0,0,0,.06);
+      --container:1180px;
+      --pad:clamp(18px,4vw,32px);
+      --header-h:72px;
+    }
+
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; overflow-x:hidden; }
+    body {
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      overflow-x:hidden;
+    }
+    a { color:inherit; text-decoration:none; }
+    button,input,select,textarea { font:inherit; }
+    img,svg { max-width:100%; display:block; }
+    .container { width:min(var(--container),100%); margin:0 auto; padding:0 var(--pad); }
+
+    .site-header {
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:saturate(180%) blur(18px);
+      -webkit-backdrop-filter:saturate(180%) blur(18px);
+      background:rgba(245,245,247,.78);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .nav {
+      min-height:var(--header-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:750;
+      letter-spacing:-.02em;
+      white-space:nowrap;
+      color:var(--ink);
+    }
+    .brand-mark {
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:13px;
+      letter-spacing:-.03em;
+      font-weight:850;
+      background:linear-gradient(145deg,#0b1220,#0071e3 58%,#60a5fa);
+      box-shadow:0 12px 26px rgba(0,113,227,.25);
+    }
+    .nav-links {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:6px;
+      background:rgba(255,255,255,.58);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:999px;
+      box-shadow:0 8px 24px rgba(0,0,0,.035);
+    }
+    .nav-links a {
+      padding:9px 13px;
+      border-radius:999px;
+      color:#4b4b52;
+      font-size:14px;
+      font-weight:650;
+      transition:background .2s ease,color .2s ease;
+    }
+    .nav-links a:hover,.nav-links a:focus-visible { background:#fff; color:var(--ink); outline:none; }
+    .nav-links a.active { background:#fff; color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    .nav-cta {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:40px;
+      padding:10px 16px;
+      border-radius:999px;
+      color:#fff;
+      font-size:14px;
+      font-weight:760;
+      background:var(--blue);
+      box-shadow:0 12px 26px rgba(0,113,227,.22);
+      transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+    }
+    .nav-cta:hover { transform:translateY(-1px); background:#0067d1; box-shadow:0 16px 34px rgba(0,113,227,.30); }
+    .menu-btn {
+      display:none;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      font-weight:720;
+      cursor:pointer;
+    }
+    .mobile-menu { display:none; padding:0 var(--pad) 16px; }
+    .mobile-menu.show { display:block; }
+    .mobile-menu-panel {
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:rgba(255,255,255,.86);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+    }
+    .mobile-menu-panel a {
+      display:block;
+      padding:15px 18px;
+      color:var(--ink-soft);
+      font-weight:680;
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .mobile-menu-panel a:last-child { border-bottom:0; color:var(--blue); }
+
+    .article-hero {
+      position:relative;
+      padding:clamp(44px,7vw,88px) 0 clamp(28px,4vw,46px);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(0,113,227,.16), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(125,92,255,.13), transparent 32%),
+        linear-gradient(180deg,#fbfbfd 0%,#f5f5f7 100%);
+    }
+    .article-hero-inner { max-width:760px; margin:0 auto; }
+    .kicker {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin:0 0 14px;
+      color:var(--blue);
+      font-size:13px;
+      font-weight:780;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .kicker::before {
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--blue);
+      box-shadow:0 0 0 7px rgba(0,113,227,.11);
+    }
+    .article-hero h1 {
+      margin:0 0 18px;
+      font-size:clamp(34px,5.8vw,60px);
+      line-height:1.06;
+      letter-spacing:-.05em;
+      font-weight:660;
+    }
+    .article-meta {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:0;
+    }
+    .article-meta-author { display:flex; align-items:center; gap:8px; }
+    .article-meta-avatar {
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:linear-gradient(135deg,#111827,#0071e3);
+      font-weight:850;
+      font-size:12px;
+    }
+    .article-meta-name { font-size:14px; font-weight:700; }
+    .article-meta-sep { color:var(--line-strong); }
+    .article-meta-date,.article-meta-read { color:var(--muted); font-size:13px; font-weight:600; }
+
+    .article-content {
+      max-width:760px;
+      margin:0 auto;
+      padding:clamp(28px,4vw,48px) 0 clamp(54px,7vw,92px);
+    }
+    .article-content h2 {
+      margin:clamp(32px,4vw,48px) 0 14px;
+      font-size:clamp(24px,3.4vw,34px);
+      line-height:1.10;
+      letter-spacing:-.045em;
+      font-weight:730;
+    }
+    .article-content h3 {
+      margin:clamp(24px,3vw,36px) 0 10px;
+      font-size:clamp(19px,2.4vw,24px);
+      line-height:1.16;
+      letter-spacing:-.03em;
+      font-weight:700;
+    }
+    .article-content p {
+      margin:0 0 18px;
+      color:var(--ink-soft);
+      font-size:clamp(16px,1.6vw,18px);
+      line-height:1.72;
+      letter-spacing:-.012em;
+    }
+    .article-content ul,.article-content ol {
+      margin:0 0 20px;
+      padding-left:24px;
+      color:var(--ink-soft);
+      font-size:clamp(16px,1.6vw,18px);
+      line-height:1.72;
+    }
+    .article-content li { margin-bottom:8px; }
+    .article-content blockquote {
+      margin:28px 0;
+      padding:20px 22px;
+      border-left:4px solid var(--blue);
+      border-radius:0 var(--radius-md) var(--radius-md) 0;
+      background:#f2f7ff;
+      color:#1d1d2e;
+      font-size:17px;
+      line-height:1.62;
+      font-weight:580;
+    }
+    .article-content blockquote p { margin:0; color:inherit; }
+    .article-content strong { color:var(--ink); font-weight:700; }
+    .article-content a { color:var(--blue); text-decoration:underline; text-underline-offset:3px; }
+
+    .article-cta {
+      max-width:760px;
+      margin:0 auto clamp(36px,5vw,60px);
+      text-align:center;
+      border-radius:var(--radius-xl);
+      padding:clamp(28px,4vw,52px) 24px;
+      background:linear-gradient(135deg,#111827,#07111f 62%,#123e75);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+    .article-cta h2 { margin:0 0 10px; font-size:clamp(26px,4vw,40px); line-height:1.06; letter-spacing:-.05em; color:#fff; }
+    .article-cta p { margin:0 0 20px; color:rgba(255,255,255,.72); font-size:16px; line-height:1.55; }
+    .article-cta .primary-btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:50px;
+      padding:14px 20px;
+      border-radius:999px;
+      font-weight:760;
+      letter-spacing:-.01em;
+      background:#fff;
+      color:#07111f;
+      transition:transform .2s ease;
+    }
+    .article-cta .primary-btn:hover { transform:translateY(-1px); }
+
+    .back-link {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:18px;
+      color:var(--blue);
+      font-size:14px;
+      font-weight:680;
+      transition:gap .2s;
+    }
+    .back-link:hover { gap:10px; }
+
+    .site-footer { padding:28px 0 48px; color:var(--muted); }
+    .footer-inner { display:flex; justify-content:space-between; gap:16px; align-items:center; font-size:13px; }
+
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.2,.8,.2,1), transform .65s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity:1; transform:none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      .reveal { transition:none; }
+    }
+    @media (max-width:780px) {
+      :root { --header-h:64px; --pad:18px; }
+      .nav-links,.nav-cta { display:none; }
+      .menu-btn { display:inline-flex; }
+      .footer-inner { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html" aria-label="SpeakingPad home"><span class="brand-mark">SP</span><span>SpeakingPad</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html#programs">Programs</a>
+        <a href="../index.html#proof">Proof</a>
+        <a href="../index.html#about">About</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../index.html#lead">Contact</a>
+      </nav>
+      <a class="nav-cta" href="../index.html#lead">Free Consultation</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-panel">
+        <a href="../index.html#programs">Programs</a>
+        <a href="../index.html#proof">Proof</a>
+        <a href="../index.html#about">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../index.html#lead">Book Free Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="article-hero">
+      <div class="container article-hero-inner reveal">
+        <a class="back-link" href="../blog.html"><span aria-hidden="true">←</span> All articles</a>
+        <p class="kicker">Public Speaking</p>
+        <h1>How to Overcome Stage Fear Before a Big Presentation</h1>
+        <div class="article-meta">
+          <div class="article-meta-author">
+            <div class="article-meta-avatar">AG</div>
+            <span class="article-meta-name">Arpit Gupta</span>
+          </div>
+          <span class="article-meta-sep">·</span>
+          <span class="article-meta-date">14 Jun 2026</span>
+          <span class="article-meta-sep">·</span>
+          <span class="article-meta-read">6 min read</span>
+        </div>
+      </div>
+    </section>
+
+    <article class="container">
+      <div class="article-content reveal">
+        <p>Your palms are sweating. Your heartbeat is louder than the room. You have rehearsed your opening line fourteen times, and yet the moment you stand up, your mind goes blank. This is not a character flaw. This is stage fear — and almost every great speaker you admire has experienced it.</p>
+
+        <p>The difference between them and you is not talent. It is <strong>trained response</strong>. They learned to work with the fear, not against it. And you can do the same.</p>
+
+        <h2>Why Stage Fear Happens (And Why It Is Normal)</h2>
+
+        <p>Stage fear is your nervous system doing exactly what it was designed to do: protect you from perceived threats. When you step on stage — or stand up in a meeting, or enter an interview room — your brain detects judgment, scrutiny, and the possibility of failure. It responds with adrenaline, tension, and a strong desire to escape.</p>
+
+        <p>This is the same fight-or-flight response that protected your ancestors from wild animals. The problem is, a classroom presentation is not a wild animal. But your brain does not know the difference — unless you train it.</p>
+
+        <blockquote><p>Stage fear is not about weakness. It is about an untrained nervous system reacting to a situation it has not been exposed to enough.</p></blockquote>
+
+        <h2>5 Practical Techniques to Manage Stage Fear</h2>
+
+        <h3>1. The 4-7-8 Breathing Reset</h3>
+
+        <p>Before you step up, use this: breathe in for 4 seconds, hold for 7, and exhale slowly for 8. This activates your parasympathetic nervous system — the part that tells your body to calm down. Do it three times. You will feel a measurable difference in your heart rate and mental clarity.</p>
+
+        <h3>2. Over-prepare the First 60 Seconds</h3>
+
+        <p>The most critical moment is the start. If you fumble your opening, your anxiety multiplies. If you nail it, your confidence carries forward. So know your first 60 seconds <strong>cold</strong>. Rehearse them out loud — not in your head — at least 10 times. Your body needs muscle memory, not mental memory.</p>
+
+        <h3>3. Reframe the Fear as Excitement</h3>
+
+        <p>Research from Harvard Business School shows that telling yourself "I am excited" instead of "I am calm" before a stressful performance actually works better. The physiological response to fear and excitement is nearly identical — racing heart, heightened alertness. The only difference is the label you give it.</p>
+
+        <p>So next time your heart races before a speech, say out loud: <strong>"I am excited about this."</strong></p>
+
+        <h3>4. Practice With Real Audiences</h3>
+
+        <p>Practising alone in your room gives you a false sense of readiness. The moment a pair of eyes watches you, everything changes. You need to practice speaking in front of real people — friends, family, or a structured coaching environment — where you experience judgment and learn to stay steady through it.</p>
+
+        <p>This is exactly why SpeakingPad sessions are designed around live practice and real-time feedback. You cannot build stage resilience without a stage.</p>
+
+        <h3>5. Accept Imperfection Early</h3>
+
+        <p>Most stage fear comes from a single belief: "I must be perfect." Drop it. The audience does not expect perfection — they expect connection, clarity, and effort. Some of the most memorable speeches in history had pauses, stammers, and unexpected moments. What made them powerful was authenticity.</p>
+
+        <h2>What Happens When You Stop Running From the Fear</h2>
+
+        <p>Once you accept that fear is normal and start training your body to respond differently, something remarkable happens: the fear does not disappear, but it becomes manageable. You start performing <em>despite</em> the nervousness. And over time, that nervousness shrinks.</p>
+
+        <p>This is what we see at SpeakingPad with every learner who commits to the 8-week program. The fear in Week 1 looks completely different from the composure in Week 8 — not because the fear vanished, but because the speaker outgrew it.</p>
+
+        <ul>
+          <li><strong>Week 1:</strong> Shaky voice, avoidance of eye contact, over-reliance on notes.</li>
+          <li><strong>Week 4:</strong> Steadier delivery, improved structure, growing comfort with silence.</li>
+          <li><strong>Week 8:</strong> Confident stage presence, natural pauses, clear vocal authority.</li>
+        </ul>
+
+        <h2>Start Before You Feel Ready</h2>
+
+        <p>If you are waiting until you feel "ready" to start improving your public speaking, you will wait forever. Readiness comes from action, not preparation.</p>
+
+        <p>Submit a free consultation request at SpeakingPad and let us identify where your speaking needs the most improvement. Whether it is stage fear, interview anxiety, or presentation delivery — there is a structured path to get you there.</p>
+
+        <blockquote><p>The best speakers are not fearless. They are fear-trained.</p></blockquote>
+      </div>
+    </article>
+
+    <div class="container">
+      <div class="article-cta reveal">
+        <h2>Ready to become a sharper speaker?</h2>
+        <p>Book a free consultation and discover the right communication improvement path for you.</p>
+        <a class="primary-btn" href="../index.html#lead">Book free consultation <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> SpeakingPad. All rights reserved.</span>
+      <span>Clarity. Confidence. Leadership communication.</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      var menuBtn = document.getElementById("menuBtn");
+      var mobileMenu = document.getElementById("mobileMenu");
+      function closeMenu() {
+        if (!mobileMenu || !menuBtn) return;
+        mobileMenu.classList.remove("show");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", function () {
+          var expanded = menuBtn.getAttribute("aria-expanded") === "true";
+          menuBtn.setAttribute("aria-expanded", String(!expanded));
+          mobileMenu.classList.toggle("show", !expanded);
+        });
+        mobileMenu.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
+        document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMenu(); });
+      }
+
+      var revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12 });
+        revealItems.forEach(function (item) { observer.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add("visible"); });
+      }
+    })();
+  </script>
+</body>
+</html>
