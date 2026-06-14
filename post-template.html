@@ -474,20 +474,14 @@
     }
 
     @media (max-width:780px) {
-      :root {
-        --header-h: 64px;
-        --pad: 18px;
-      }
-
-      .nav-links,
-      .nav-cta {
-        display: none;
-      }
-
-      .menu-btn {
-        display: inline-flex;
-      }
-
+      :root { --header-h:auto; --pad:18px; }
+      .site-header { padding: 12px 0; border-bottom: none; }
+      .nav { flex-wrap:wrap; justify-content:center; gap:12px; }
+      .brand { margin-bottom: 2px; }
+      .nav-links { width:100%; overflow-x:auto; justify-content:flex-start; padding:6px; border-radius:14px; -webkit-overflow-scrolling:touch; scrollbar-width:none; box-shadow:0 4px 12px rgba(0,0,0,.03); }
+      .nav-links::-webkit-scrollbar { display:none; }
+      .nav-links a { white-space:nowrap; }
+      .nav-cta { display:none; }
       .footer-inner {
         flex-direction: column;
         align-items: flex-start;
@@ -500,26 +494,15 @@
 
   <header class="site-header">
     <div class="container nav">
-      <a class="brand" href="../index.html" aria-label="SpeakingPad home"><span
-          class="brand-mark">SP</span><span>SpeakingPad</span></a>
+      <a class="brand" href="../index.html" aria-label="SpeakingPad home"><span class="brand-mark">SP</span><span>SpeakingPad</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="../index.html#programs">Programs</a>
-        <a href="../index.html#proof">Proof</a>
         <a href="../index.html#about">About</a>
+        <a href="../index.html#programs">Programs</a>
+        <a href="../index.html#testimonials">Testimonials</a>
         <a href="../blog.html" class="active">Blog</a>
         <a href="../index.html#lead">Contact</a>
       </nav>
       <a class="nav-cta" href="../index.html#lead">Free Consultation</a>
-      <button class="menu-btn" id="menuBtn" type="button" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <div class="mobile-menu-panel">
-        <a href="../index.html#programs">Programs</a>
-        <a href="../index.html#proof">Proof</a>
-        <a href="../index.html#about">About</a>
-        <a href="../blog.html">Blog</a>
-        <a href="../index.html#lead">Book Free Consultation</a>
-      </div>
     </div>
   </header>
 
@@ -573,23 +556,6 @@
     (function () {
       var year = document.getElementById("year");
       if (year) year.textContent = new Date().getFullYear();
-
-      var menuBtn = document.getElementById("menuBtn");
-      var mobileMenu = document.getElementById("mobileMenu");
-      function closeMenu() {
-        if (!mobileMenu || !menuBtn) return;
-        mobileMenu.classList.remove("show");
-        menuBtn.setAttribute("aria-expanded", "false");
-      }
-      if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener("click", function () {
-          var expanded = menuBtn.getAttribute("aria-expanded") === "true";
-          menuBtn.setAttribute("aria-expanded", String(!expanded));
-          mobileMenu.classList.toggle("show", !expanded);
-        });
-        mobileMenu.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
-        document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMenu(); });
-      }
 
       var revealItems = document.querySelectorAll(".reveal");
       if ("IntersectionObserver" in window) {

@@ -122,39 +122,6 @@
       transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
     }
     .nav-cta:hover { transform:translateY(-1px); background:#0067d1; box-shadow:0 16px 34px rgba(0,113,227,.30); }
-    .menu-btn {
-      display:none;
-      align-items:center;
-      justify-content:center;
-      min-height:42px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--ink);
-      font-weight:720;
-      cursor:pointer;
-    }
-    .mobile-menu {
-      display:none;
-      padding:0 var(--pad) 16px;
-    }
-    .mobile-menu.show { display:block; }
-    .mobile-menu-panel {
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:rgba(255,255,255,.86);
-      box-shadow:var(--shadow-soft);
-      overflow:hidden;
-    }
-    .mobile-menu-panel a {
-      display:block;
-      padding:15px 18px;
-      color:var(--ink-soft);
-      font-weight:680;
-      border-bottom:1px solid rgba(0,0,0,.06);
-    }
-    .mobile-menu-panel a:last-child { border-bottom:0; color:var(--blue); }
 
     .hero {
       position:relative;
@@ -606,22 +573,6 @@
     }
     .toast.show { opacity:1; transform:translateY(0); }
     .toast.error { background:var(--red); box-shadow:0 18px 42px rgba(239,68,68,.26); }
-    .qa-panel {
-      display:none;
-      position:fixed;
-      left:18px;
-      bottom:86px;
-      z-index:2001;
-      width:min(360px,calc(100vw - 36px));
-      padding:14px;
-      border:1px solid rgba(0,0,0,.12);
-      border-radius:20px;
-      background:#fff;
-      box-shadow:var(--shadow-soft);
-    }
-    .qa-panel.show { display:block; }
-    .qa-panel p { margin:0 0 10px; color:var(--muted); font-size:13px; line-height:1.45; }
-    .qa-panel button { width:100%; min-height:44px; border:0; border-radius:14px; color:#fff; background:#111114; font-weight:760; cursor:pointer; }
     .reveal { opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.2,.8,.2,1), transform .65s cubic-bezier(.2,.8,.2,1); }
     .reveal.visible { opacity:1; transform:none; }
 
@@ -637,9 +588,14 @@
       .proof-card { min-height:auto; }
     }
     @media (max-width:780px) {
-      :root { --header-h:64px; --pad:18px; }
-      .nav-links,.nav-cta { display:none; }
-      .menu-btn { display:inline-flex; }
+      :root { --header-h:auto; --pad:18px; }
+      .site-header { padding: 12px 0; border-bottom: none; }
+      .nav { flex-wrap:wrap; justify-content:center; gap:12px; }
+      .brand { margin-bottom: 2px; }
+      .nav-links { width:100%; overflow-x:auto; justify-content:flex-start; padding:6px; border-radius:14px; -webkit-overflow-scrolling:touch; scrollbar-width:none; box-shadow:0 4px 12px rgba(0,0,0,.03); }
+      .nav-links::-webkit-scrollbar { display:none; }
+      .nav-links a { white-space:nowrap; }
+      .nav-cta { display:none; }
       .hero { min-height:auto; padding-top:38px; }
       h1 { font-size:clamp(42px,12vw,58px); line-height:.98; }
       .hero-lead { font-size:18px; }
@@ -675,23 +631,13 @@
     <div class="container nav">
       <a class="brand" href="#top" aria-label="SpeakingPad home"><span class="brand-mark">SP</span><span>SpeakingPad</span></a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#programs">Programs</a>
-        <a href="#proof">Proof</a>
         <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#testimonials">Testimonials</a>
         <a href="blog.html">Blog</a>
         <a href="#lead">Contact</a>
       </nav>
       <a class="nav-cta" href="#lead">Free Consultation</a>
-      <button class="menu-btn" id="menuBtn" type="button" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <div class="mobile-menu-panel">
-        <a href="#programs">Programs</a>
-        <a href="#proof">Proof</a>
-        <a href="#about">About Arpit</a>
-        <a href="blog.html">Blog</a>
-        <a href="#lead">Book Free Consultation</a>
-      </div>
     </div>
   </header>
 
@@ -704,7 +650,7 @@
           <p class="hero-lead">SpeakingPad helps MBA students, final-year college students and early-stage corporate professionals become sharper speakers — for interviews, presentations, promotions and leadership moments.</p>
           <div class="hero-actions">
             <a class="primary-btn" href="#lead">Book a free consultation <span aria-hidden="true">→</span></a>
-            <a class="secondary-btn" href="#proof">See learner feedback</a>
+            <a class="secondary-btn" href="#testimonials">See learner feedback</a>
           </div>
           <div class="trust-row" aria-label="SpeakingPad credibility highlights">
             <div class="trust-pill"><strong>50+</strong><span>Best Speaker awards won by Arpit</span></div>
@@ -839,10 +785,10 @@
       </div>
     </section>
 
-    <section id="proof">
+    <section id="testimonials">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="kicker">Learner proof</p>
+          <p class="kicker">Testimonials</p>
           <h2>Honest feedback from people who experienced the program.</h2>
           <p>These are kept intentionally simple and real. Less noise, more believable proof.</p>
         </div>
@@ -943,8 +889,6 @@
       const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdPxP8TWSVGmanaUJr9INJslYEJ2CXSn60qrdxYnltvToOqyitlSlayfNlavkneEY0/exec";
 
       const year = document.getElementById("year");
-      const menuBtn = document.getElementById("menuBtn");
-      const mobileMenu = document.getElementById("mobileMenu");
       const form = document.getElementById("leadForm");
       const toast = document.getElementById("toast");
       const submitBtn = document.getElementById("submitBtn");
@@ -961,22 +905,6 @@
       };
 
       if (year) year.textContent = new Date().getFullYear();
-
-      function closeMenu() {
-        if (!mobileMenu || !menuBtn) return;
-        mobileMenu.classList.remove("show");
-        menuBtn.setAttribute("aria-expanded", "false");
-      }
-
-      if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener("click", function () {
-          const expanded = menuBtn.getAttribute("aria-expanded") === "true";
-          menuBtn.setAttribute("aria-expanded", String(!expanded));
-          mobileMenu.classList.toggle("show", !expanded);
-        });
-        mobileMenu.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
-        document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMenu(); });
-      }
 
       function showToast(message, type) {
         if (!toast) return;
