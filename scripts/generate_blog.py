@@ -33,7 +33,7 @@ BLOG_DATA_PATH = os.path.join(REPO_ROOT, "blog-data.json")
 SITEMAP_PATH = os.path.join(REPO_ROOT, "sitemap.xml")
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = "google/gemini-2.0-flash-001"
+OPENROUTER_MODEL = "openai/gpt-4o-mini"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # ─── Topic Pool ───────────────────────────────────────────────────────────────
