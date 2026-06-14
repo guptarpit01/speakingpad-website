@@ -29,6 +29,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS_DIR = os.path.join(REPO_ROOT, "posts")
 TEMPLATE_PATH = os.path.join(REPO_ROOT, "post-template.html")
 BLOG_DATA_PATH = os.path.join(REPO_ROOT, "blog-data.json")
+SITEMAP_PATH = os.path.join(REPO_ROOT, "sitemap.xml")
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = "google/gemini-2.0-flash-001"
@@ -233,6 +234,28 @@ def render_post(article: dict, topic: dict, date_str: str) -> str:
     return html
 
 
+def update_sitemap(existing_data: list):
+    """Generate and update sitemap.xml with all blog posts for SEO discovery."""
+    urls = [
+        "<url><loc>https://speakingpad.in/</loc><priority>1.0</priority></url>",
+        "<url><loc>https://speakingpad.in/blog.html</loc><priority>0.9</priority></url>"
+    ]
+    
+    for post in existing_data:
+        date_str = post.get("date", "")
+        slug = post.get("slug", "")
+        if slug:
+            urls.append(f"<url><loc>https://speakingpad.in/posts/{slug}.html</loc><lastmod>{date_str}</lastmod><priority>0.8</priority></url>")
+            
+    sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {"".join(urls)}
+</urlset>"""
+    
+    with open(SITEMAP_PATH, "w", encoding="utf-8") as f:
+        f.write(sitemap_content)
+
+
 def main():
     print("🚀 SpeakingPad Blog Generator")
     print("=" * 40)
@@ -282,6 +305,11 @@ def main():
     existing.append(new_entry)
     save_blog_data(existing)
     print(f"📊 Updated blog-data.json ({len(existing)} articles total)")
+
+    # Update Sitemap for SEO
+    update_sitemap(existing)
+    print("🗺️  Updated sitemap.xml for Google discovery")
+
     print("✅ Done!")
 
 
