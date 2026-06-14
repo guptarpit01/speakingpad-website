@@ -10,7 +10,7 @@ jobs:
 generate-blog:
 runs-on: ubuntu-latest
 
-```
+
 steps:
   - uses: actions/checkout@v4
 
@@ -42,4 +42,4 @@ steps:
       git add confidence-in-meetings.html
       git commit -m "Generated blog"
       git push
-```
+
