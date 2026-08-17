@@ -583,5 +583,14 @@
     "date": "2026-08-16",
     "readTime": "7 min read",
     "gradient": "linear-gradient(135deg,#dbeafe,#e0f2fe)"
+  },
+  {
+    "slug": "presentation-storytelling-how-to-make-data-feel-like-a-narrative",
+    "title": "Presentation Storytelling: How to Make Data Feel Like a Narrative",
+    "excerpt": "Discover how to turn data into engaging narratives. Master the art of presentation storytelling to captivate your audience every time.",
+    "tag": "Storytelling",
+    "date": "2026-08-17",
+    "readTime": "5 min read",
+    "gradient": "linear-gradient(135deg,#faf5ff,#e9d5ff)"
   }
 ]
