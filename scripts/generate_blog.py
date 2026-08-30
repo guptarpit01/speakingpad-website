@@ -6,6 +6,11 @@ This script:
 2. Calls the Gemini API to generate an article in SpeakingPad's tone.
 3. Renders the article HTML from the post-template.html template.
 4. Updates blog-data.json with the new article's metadata.
+5. Updates sitemap.xml with every published article.
+
+LinkedIn publishing is deliberately handled by publish_linkedin.py after the
+website files have been committed. This keeps a LinkedIn outage from blocking
+the website deployment while still making the automation fail visibly.
 
 Usage (local):
   export GEMINI_API_KEY="your-key"
@@ -23,7 +28,6 @@ import random
 import datetime
 import urllib.request
 import urllib.error
-import html
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -257,52 +261,6 @@ def update_sitemap(existing_data: list):
         f.write(sitemap_content)
 
 
-def post_to_webhook(html_content: str, title: str, slug: str):
-    """Converts HTML to text and sends it to a Make.com webhook to post on LinkedIn."""
-    webhook_url = os.environ.get("MAKE_WEBHOOK_URL")
-    
-    if not webhook_url:
-        print("⏭️  Make.com Webhook URL not found. Skipping LinkedIn post.")
-        return
-
-    print("💼 Formatting article for LinkedIn and sending to Webhook...")
-    
-    # Convert HTML to LinkedIn plain text
-    text = re.sub(r'<(br|/p|/h[1-6]|/div|/blockquote)>\s*', '\n\n', html_content, flags=re.IGNORECASE)
-    text = re.sub(r'<li>\s*', '• ', text, flags=re.IGNORECASE)
-    def uppercase_heading(match):
-        return match.group(1).upper()
-    text = re.sub(r'<h[1-6][^>]*>(.*?)</h[1-6]>', uppercase_heading, text, flags=re.IGNORECASE)
-    text = re.sub(r'<[^>]+>', '', text)
-    text = html.unescape(text)
-    text = re.sub(r'\n{3,}', '\n\n', text).strip()
-    
-    # LinkedIn character limit is 3000
-    post_text = f"📢 {title.upper()}\n\n{text}"
-    if len(post_text) > 2800:
-        post_text = post_text[:2797] + "..."
-        
-    # Append the article URL to the bottom of the post
-    article_url = f"https://speakingpad.in/posts/{slug}.html"
-    post_text += f"\n\n🔗 Read the full article here: {article_url}"
-        
-    headers = {
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "title": title,
-        "linkedin_text": post_text,
-        "article_url": article_url
-    }
-    
-    try:
-        req = urllib.request.Request(webhook_url, data=json.dumps(payload).encode('utf-8'), headers=headers, method='POST')
-        with urllib.request.urlopen(req, timeout=30) as response:
-            print("✅ Successfully sent article to Make.com Webhook!")
-    except Exception as e:
-        print(f"❌ Failed to send to Webhook: {e}")
-
-
 def main():
     print("🚀 SpeakingPad Blog Generator")
     print("=" * 40)
@@ -356,9 +314,6 @@ def main():
     # Update Sitemap for SEO
     update_sitemap(existing)
     print("🗺️  Updated sitemap.xml for Google discovery")
-
-    # Post to LinkedIn via Webhook
-    post_to_webhook(article.get("body_html", ""), article["title"], slug)
 
     print("✅ Done!")
 
