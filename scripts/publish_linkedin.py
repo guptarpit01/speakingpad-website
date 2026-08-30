@@ -8,7 +8,6 @@ failure is visible without preventing the blog from going live.
 from __future__ import annotations
 
 import argparse
-import datetime as dt
 import hashlib
 from html.parser import HTMLParser
 import json
