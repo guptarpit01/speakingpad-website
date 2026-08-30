@@ -11,6 +11,8 @@ from scripts.publish_linkedin import (
     ArticleTextParser,
     LINKEDIN_CHARACTER_LIMIT,
     PublishError,
+    WEBSITE_URL,
+    build_hashtags,
     build_payload,
     build_post_text,
     deliver_payload,
@@ -65,8 +67,20 @@ class PayloadTests(unittest.TestCase):
         text = build_post_text("A useful title", "word " * 1000, article_url)
 
         self.assertLessEqual(len(text), LINKEDIN_CHARACTER_LIMIT)
-        self.assertTrue(text.endswith(article_url))
+        self.assertIn(article_url, text)
+        self.assertTrue(text.endswith(f"🌐 {WEBSITE_URL}"))
         self.assertIn("...\n\n🔗 Read the full article here:", text)
+
+    def test_footer_has_five_relevant_hashtags_then_website_link(self):
+        post = {"tag": "Public Speaking"}
+        hashtags = build_hashtags(post)
+        text = build_post_text("Speak clearly", "Useful guidance", None, hashtags)
+
+        self.assertEqual(len(hashtags), 5)
+        self.assertEqual(hashtags[:3], ["#PublicSpeaking", "#PresentationSkills", "#SpeakerConfidence"])
+        self.assertEqual(hashtags[-1], "#SpeakingPad")
+        self.assertEqual(text.splitlines()[-3], " ".join(hashtags))
+        self.assertEqual(text.splitlines()[-1], f"🌐 {WEBSITE_URL}")
 
     def test_payload_preserves_make_field_names_and_adds_stable_event_id(self):
         post = {"slug": "example", "title": "Example", "date": "2026-08-30"}
@@ -88,6 +102,8 @@ class PayloadTests(unittest.TestCase):
 
         self.assertEqual(payload["article_url"], "")
         self.assertNotIn("Read the full article here", payload["linkedin_text"])
+        self.assertTrue(payload["linkedin_text"].endswith(f"🌐 {WEBSITE_URL}"))
+        self.assertEqual(len(payload["hashtags"]), 5)
         self.assertEqual(payload["source"], "speakingpad-linkedin-test")
 
     def test_load_payload_validates_prebuilt_test_payload(self):

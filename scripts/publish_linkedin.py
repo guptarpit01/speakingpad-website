@@ -25,8 +25,33 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_BLOG_DATA = REPO_ROOT / "blog-data.json"
 DEFAULT_POSTS_DIR = REPO_ROOT / "posts"
 ARTICLE_BASE_URL = "https://speakingpad.in/posts"
+WEBSITE_URL = "https://www.speakingpad.in"
 LINKEDIN_CHARACTER_LIMIT = 3000
 TRANSIENT_HTTP_CODES = {408, 425, 429, 500, 502, 503, 504}
+
+TAG_HASHTAGS = {
+    "public speaking": ["PublicSpeaking", "PresentationSkills", "SpeakerConfidence"],
+    "body language": ["BodyLanguage", "NonverbalCommunication", "PublicSpeaking"],
+    "group discussions": ["GroupDiscussion", "MBAStudents", "CommunicationSkills"],
+    "interviews": ["InterviewTips", "CareerGrowth", "PersonalBranding"],
+    "confidence": ["Confidence", "PublicSpeaking", "PersonalDevelopment"],
+    "career growth": ["CareerGrowth", "ProfessionalDevelopment", "PersonalBranding"],
+    "workplace communication": ["WorkplaceCommunication", "LeadershipSkills", "CareerGrowth"],
+    "speech skills": ["SpeakingSkills", "PublicSpeaking", "CommunicationTips"],
+    "storytelling": ["Storytelling", "BusinessCommunication", "PresentationSkills"],
+    "leadership": ["LeadershipCommunication", "LeadershipSkills", "ManagementSkills"],
+    "placements": ["CampusPlacements", "InterviewPreparation", "CareerReadiness"],
+    "practice methods": ["DeliberatePractice", "SkillDevelopment", "PublicSpeaking"],
+    "vocabulary": ["VocabularyBuilding", "EnglishCommunication", "ProfessionalCommunication"],
+    "fluency": ["EnglishFluency", "SpokenEnglish", "CommunicationSkills"],
+}
+FALLBACK_HASHTAGS = [
+    "CommunicationSkills",
+    "SpeakingPad",
+    "ProfessionalDevelopment",
+    "CareerGrowth",
+    "PersonalDevelopment",
+]
 
 
 class PublishError(RuntimeError):
@@ -136,10 +161,38 @@ def load_article(
     return post, article_text
 
 
-def build_post_text(title: str, article_text: str, article_url: str | None) -> str:
+def build_hashtags(post: dict) -> list[str]:
+    """Return five relevant, deduplicated hashtags for an article."""
+    tag = str(post.get("tag", "")).strip().casefold()
+    candidates = [*TAG_HASHTAGS.get(tag, []), *FALLBACK_HASHTAGS]
+    hashtags: list[str] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        normalized = re.sub(r"[^A-Za-z0-9]", "", candidate)
+        key = normalized.casefold()
+        if normalized and key not in seen:
+            hashtags.append(f"#{normalized}")
+            seen.add(key)
+        if len(hashtags) == 5:
+            break
+    return hashtags
+
+
+def build_post_text(
+    title: str,
+    article_text: str,
+    article_url: str | None,
+    hashtags: list[str] | None = None,
+) -> str:
     """Build a complete post that always stays within LinkedIn's limit."""
     prefix = f"📢 {title.upper()}\n\n"
-    suffix = f"\n\n🔗 Read the full article here: {article_url}" if article_url else ""
+    footer_parts = []
+    if article_url:
+        footer_parts.append(f"🔗 Read the full article here: {article_url}")
+    footer_parts.append(" ".join(hashtags or [f"#{tag}" for tag in FALLBACK_HASHTAGS]))
+    # Keep the website as the final line, as requested for every LinkedIn post.
+    footer_parts.append(f"🌐 {WEBSITE_URL}")
+    suffix = "\n\n" + "\n\n".join(footer_parts)
     available = LINKEDIN_CHARACTER_LIMIT - len(prefix) - len(suffix)
     if available < 80:
         raise PublishError("Article title and URL leave too little room for post content")
@@ -163,12 +216,14 @@ def build_payload(post: dict, article_text: str, *, include_article_link: bool =
     slug = str(post["slug"])
     title = str(post["title"])
     article_url = f"{ARTICLE_BASE_URL}/{slug}.html" if include_article_link else ""
+    hashtags = build_hashtags(post)
     event_source = f"{source}:{post.get('date', '')}:{slug}"
     event_id = hashlib.sha256(event_source.encode("utf-8")).hexdigest()[:24]
     return {
         "title": title,
-        "linkedin_text": build_post_text(title, article_text, article_url or None),
+        "linkedin_text": build_post_text(title, article_text, article_url or None, hashtags),
         "article_url": article_url,
+        "hashtags": hashtags,
         "published_date": post.get("date", ""),
         "event_id": event_id,
         "source": source,

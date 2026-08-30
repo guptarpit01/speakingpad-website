@@ -76,6 +76,7 @@ def generate_test_payload() -> dict:
         "title": title,
         "slug": slugify(title),
         "date": generated_at,
+        "tag": topic.get("tag", ""),
     }
     payload = build_payload(
         post,
