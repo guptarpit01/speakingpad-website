@@ -136,10 +136,10 @@ def load_article(
     return post, article_text
 
 
-def build_post_text(title: str, article_text: str, article_url: str) -> str:
+def build_post_text(title: str, article_text: str, article_url: str | None) -> str:
     """Build a complete post that always stays within LinkedIn's limit."""
     prefix = f"📢 {title.upper()}\n\n"
-    suffix = f"\n\n🔗 Read the full article here: {article_url}"
+    suffix = f"\n\n🔗 Read the full article here: {article_url}" if article_url else ""
     available = LINKEDIN_CHARACTER_LIMIT - len(prefix) - len(suffix)
     if available < 80:
         raise PublishError("Article title and URL leave too little room for post content")
@@ -158,21 +158,40 @@ def build_post_text(title: str, article_text: str, article_url: str) -> str:
     return post_text
 
 
-def build_payload(post: dict, article_text: str) -> dict:
+def build_payload(post: dict, article_text: str, *, include_article_link: bool = True, source: str = "speakingpad-daily-blog") -> dict:
     """Build the backward-compatible Make payload with diagnostic metadata."""
     slug = str(post["slug"])
     title = str(post["title"])
-    article_url = f"{ARTICLE_BASE_URL}/{slug}.html"
-    event_source = f"{post.get('date', '')}:{slug}"
+    article_url = f"{ARTICLE_BASE_URL}/{slug}.html" if include_article_link else ""
+    event_source = f"{source}:{post.get('date', '')}:{slug}"
     event_id = hashlib.sha256(event_source.encode("utf-8")).hexdigest()[:24]
     return {
         "title": title,
-        "linkedin_text": build_post_text(title, article_text, article_url),
+        "linkedin_text": build_post_text(title, article_text, article_url or None),
         "article_url": article_url,
         "published_date": post.get("date", ""),
         "event_id": event_id,
-        "source": "speakingpad-daily-blog",
+        "source": source,
     }
+
+
+def load_payload(payload_path: Path) -> dict:
+    """Load and validate a prebuilt payload, such as a LinkedIn-only test."""
+    try:
+        payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise PublishError(f"LinkedIn payload not found: {payload_path}") from exc
+    except json.JSONDecodeError as exc:
+        raise PublishError(f"LinkedIn payload is invalid JSON: {exc}") from exc
+
+    if not isinstance(payload, dict):
+        raise PublishError("LinkedIn payload must be a JSON object")
+    for field in ("title", "linkedin_text", "event_id"):
+        if not str(payload.get(field, "")).strip():
+            raise PublishError(f"LinkedIn payload is missing {field}")
+    if len(payload["linkedin_text"]) > LINKEDIN_CHARACTER_LIMIT:
+        raise PublishError("LinkedIn payload exceeds the 3,000-character limit")
+    return payload
 
 
 def _validate_webhook_url(webhook_url: str) -> None:
@@ -238,6 +257,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--date", help="Publish the latest article on this YYYY-MM-DD date")
     parser.add_argument("--blog-data", type=Path, default=DEFAULT_BLOG_DATA)
     parser.add_argument("--posts-dir", type=Path, default=DEFAULT_POSTS_DIR)
+    parser.add_argument("--payload", type=Path, help="Publish a prebuilt JSON payload instead of a website article")
     return parser.parse_args(argv)
 
 
@@ -249,10 +269,15 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     try:
-        post, article_text = load_article(args.blog_data, args.posts_dir, args.date)
-        payload = build_payload(post, article_text)
+        if args.payload:
+            payload = load_payload(args.payload)
+            title = payload["title"]
+        else:
+            post, article_text = load_article(args.blog_data, args.posts_dir, args.date)
+            payload = build_payload(post, article_text)
+            title = post["title"]
         print(
-            f"💼 Publishing '{post['title']}' to LinkedIn "
+            f"💼 Publishing '{title}' to LinkedIn "
             f"({len(payload['linkedin_text'])}/{LINKEDIN_CHARACTER_LIMIT} characters)..."
         )
         status, body = deliver_payload(webhook_url, payload)

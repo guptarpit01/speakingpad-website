@@ -17,6 +17,11 @@ on:
         required: false
         default: false
         type: boolean
+      linkedin_test:
+        description: 'Generate a new test article for LinkedIn only (never writes to the website)'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: speakingpad-daily-blog
@@ -44,14 +49,14 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Generate blog article
-        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.linkedin_only }}
+        if: ${{ github.event_name != 'workflow_dispatch' || (!inputs.linkedin_only && !inputs.linkedin_test) }}
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: python scripts/generate_blog.py
 
       - name: Commit and push new article
         id: publish_blog
-        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.linkedin_only }}
+        if: ${{ github.event_name != 'workflow_dispatch' || (!inputs.linkedin_only && !inputs.linkedin_test) }}
         run: |
           git config user.name "SpeakingPad Blog Bot"
           git config user.email "blog-bot@speakingpad.in"
@@ -67,8 +72,31 @@ jobs:
             echo "article_created=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish article to LinkedIn
-        if: ${{ steps.publish_blog.outputs.article_created == 'true' || (github.event_name == 'workflow_dispatch' && inputs.linkedin_only) }}
+      - name: Generate LinkedIn-only test article
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.linkedin_test }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python scripts/generate_linkedin_test.py --output "$RUNNER_TEMP/linkedin-test-payload.json"
+
+      - name: Verify LinkedIn test did not change website files
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.linkedin_test }}
+        run: |
+          git diff --exit-code
+          git status --porcelain --untracked-files=all > "$RUNNER_TEMP/repository-status.txt"
+          if [ -s "$RUNNER_TEMP/repository-status.txt" ]; then
+            echo "LinkedIn-only generation unexpectedly changed repository files:"
+            sed -n '1,100p' "$RUNNER_TEMP/repository-status.txt"
+            exit 1
+          fi
+
+      - name: Publish generated article to LinkedIn
+        if: ${{ !inputs.linkedin_test && (steps.publish_blog.outputs.article_created == 'true' || (github.event_name == 'workflow_dispatch' && inputs.linkedin_only)) }}
         env:
           MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
         run: python scripts/publish_linkedin.py
+
+      - name: Publish test article to LinkedIn only
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.linkedin_test }}
+        env:
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+        run: python scripts/publish_linkedin.py --payload "$RUNNER_TEMP/linkedin-test-payload.json"
