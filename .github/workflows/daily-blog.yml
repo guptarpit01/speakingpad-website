@@ -1,7 +1,7 @@
 # ──────────────────────────────────────────────────────────────
 # SpeakingPad — Daily Blog Article Generator
 # Runs every day at 6:00 AM IST (00:30 UTC) via GitHub Actions.
-# Generates a new article using Gemini, commits it, and pushes.
+# Generates a new article using OpenRouter, commits it, and pushes.
 # ──────────────────────────────────────────────────────────────
 
 name: Daily Blog Post
@@ -36,12 +36,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 

@@ -3,7 +3,7 @@ generate_blog.py — Automated daily blog article generator for SpeakingPad.
 
 This script:
 1. Picks a topic from a curated pool (avoiding recent repeats).
-2. Calls the Gemini API to generate an article in SpeakingPad's tone.
+2. Calls OpenRouter to generate an article in SpeakingPad's tone.
 3. Renders the article HTML from the post-template.html template.
 4. Updates blog-data.json with the new article's metadata.
 5. Updates sitemap.xml with every published article.
@@ -13,7 +13,7 @@ website files have been committed. This keeps a LinkedIn outage from blocking
 the website deployment while still making the automation fail visibly.
 
 Usage (local):
-  export GEMINI_API_KEY="your-key"
+  export OPENROUTER_API_KEY="your-key"
   python scripts/generate_blog.py
 
 Usage (GitHub Actions):
@@ -26,6 +26,7 @@ import re
 import sys
 import random
 import datetime
+import time
 import urllib.request
 import urllib.error
 
@@ -37,8 +38,12 @@ BLOG_DATA_PATH = os.path.join(REPO_ROOT, "blog-data.json")
 SITEMAP_PATH = os.path.join(REPO_ROOT, "sitemap.xml")
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = "openai/gpt-4o-mini"
+OPENROUTER_PRIMARY_MODEL = os.environ.get("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+OPENROUTER_FALLBACK_MODEL = os.environ.get("OPENROUTER_FALLBACK_MODEL", "openrouter/free")
+OPENROUTER_MAX_TOKENS = int(os.environ.get("OPENROUTER_MAX_TOKENS", "3000"))
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+RETRYABLE_HTTP_CODES = {408, 409, 425, 429, 500, 502, 503, 504}
+MAX_ATTEMPTS_PER_MODEL = 2
 
 # ─── Topic Pool ───────────────────────────────────────────────────────────────
 TOPICS = [
@@ -141,46 +146,78 @@ def pick_topic(existing_data: list) -> dict:
     return random.choice(available)
 
 
+class LLMGenerationError(RuntimeError):
+    """Raised after every configured OpenRouter model has failed."""
+
+
+def model_candidates() -> list[str]:
+    """Return configured models in priority order without duplicates."""
+    return list(dict.fromkeys((OPENROUTER_PRIMARY_MODEL, OPENROUTER_FALLBACK_MODEL)))
+
+
+def unique_slug(title: str, date_str: str, existing_data: list) -> str:
+    """Avoid overwriting an older post when the model reuses a title."""
+    base_slug = slugify(title)
+    existing_slugs = {post.get("slug", "") for post in existing_data}
+    if base_slug not in existing_slugs:
+        return base_slug
+    return f"{base_slug}-{date_str}"
+
+
 def call_llm(prompt: str) -> str:
-    """Call the OpenRouter API (OpenAI-compatible) and return text."""
+    """Call OpenRouter, falling back to its free-model router when needed."""
     if not OPENROUTER_API_KEY:
-        print("ERROR: OPENROUTER_API_KEY environment variable is not set.")
-        sys.exit(1)
+        raise LLMGenerationError("OPENROUTER_API_KEY environment variable is not set")
 
-    payload = json.dumps({
-        "model": OPENROUTER_MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.85,
-        "max_tokens": 4096,
-    }).encode("utf-8")
+    failures = []
+    for model in model_candidates():
+        for attempt in range(1, MAX_ATTEMPTS_PER_MODEL + 1):
+            print(f"🤖 OpenRouter model: {model} (attempt {attempt}/{MAX_ATTEMPTS_PER_MODEL})")
+            payload = json.dumps({
+                "model": model,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.85,
+                "max_tokens": OPENROUTER_MAX_TOKENS,
+                "response_format": {"type": "json_object"},
+            }).encode("utf-8")
 
-    req = urllib.request.Request(
-        OPENROUTER_URL,
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "HTTP-Referer": "https://speakingpad.in",
-            "X-Title": "SpeakingPad Blog Generator",
-        },
-        method="POST",
-    )
+            request = urllib.request.Request(
+                OPENROUTER_URL,
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                    "HTTP-Referer": "https://speakingpad.in",
+                    "X-Title": "SpeakingPad Blog Generator",
+                },
+                method="POST",
+            )
 
-    try:
-        with urllib.request.urlopen(req, timeout=90) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            return result["choices"][0]["message"]["content"]
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="replace")
-        print(f"OpenRouter API error {e.code}: {body}")
-        sys.exit(1)
-    except Exception as e:
-        print(f"OpenRouter API call failed: {e}")
-        sys.exit(1)
+            try:
+                with urllib.request.urlopen(request, timeout=90) as response:
+                    result = json.loads(response.read().decode("utf-8"))
+                content = result["choices"][0]["message"]["content"]
+                if not isinstance(content, str) or not content.strip():
+                    raise ValueError("model returned empty content")
+                return content
+            except urllib.error.HTTPError as error:
+                body = error.read().decode("utf-8", errors="replace")
+                failures.append(f"{model}: HTTP {error.code}: {body[:300]}")
+                print(f"⚠️  {model} returned HTTP {error.code}; trying another route.")
+                if error.code not in RETRYABLE_HTTP_CODES:
+                    break
+            except Exception as error:
+                failures.append(f"{model}: {error}")
+                print(f"⚠️  {model} failed: {error}")
+
+            if attempt < MAX_ATTEMPTS_PER_MODEL:
+                time.sleep(2 ** (attempt - 1))
+
+    raise LLMGenerationError("All OpenRouter models failed. " + " | ".join(failures))
 
 
 def generate_article(topic: dict) -> dict:
-    """Use Gemini to generate a full article as structured JSON."""
+    """Use OpenRouter to generate a full article as structured JSON."""
     prompt = f"""You are the content writer for SpeakingPad — a communication coaching platform founded by Arpit Gupta.
 SpeakingPad helps MBA students, final-year college students, and early-stage corporate professionals improve their public speaking, interview skills, presentation delivery, and leadership communication.
 
@@ -216,9 +253,9 @@ Return ONLY valid JSON (no markdown fences, no extra text) with these exact keys
     try:
         return json.loads(raw)
     except json.JSONDecodeError as e:
-        print(f"Failed to parse Gemini response as JSON: {e}")
+        print(f"Failed to parse OpenRouter response as JSON: {e}")
         print(f"Raw response:\n{raw[:500]}")
-        sys.exit(1)
+        raise LLMGenerationError("OpenRouter returned invalid article JSON") from e
 
 
 def render_post(article: dict, topic: dict, date_str: str) -> str:
@@ -283,12 +320,16 @@ def main():
     print(f"🏷️  Tag: {topic['tag']}")
 
     # Generate article
-    print("🤖 Calling Gemini API...")
-    article = generate_article(topic)
+    print("🤖 Calling OpenRouter API...")
+    try:
+        article = generate_article(topic)
+    except LLMGenerationError as error:
+        print(f"❌ Article generation failed: {error}", file=sys.stderr)
+        return 1
     print(f"✅ Generated: {article['title']}")
 
     # Create slug
-    slug = slugify(article["title"])
+    slug = unique_slug(article["title"], today, existing)
 
     # Render HTML
     html = render_post(article, topic, today)
@@ -316,7 +357,8 @@ def main():
     print("🗺️  Updated sitemap.xml for Google discovery")
 
     print("✅ Done!")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
