@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Common Grammar Mistakes in Spoken English and How to Avoid Them — SpeakingPad Blog</title>
+  <meta name="description" content="Discover frequent grammar slip-ups in spoken English and practical fixes to sound confident and clear in interviews and presentations.">
+  <meta name="theme-color" content="#f5f5f7">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-soft: #fbfbfd;
+      --ink: #111114;
+      --ink-soft: #2b2b31;
+      --muted: #6e6e73;
+      --muted-2: #8e8e93;
+      --line: rgba(17, 17, 20, .10);
+      --line-strong: rgba(17, 17, 20, .16);
+      --blue: #0071e3;
+      --blue-2: #2997ff;
+      --green: #10b981;
+      --red: #ef4444;
+      --navy: #07111f;
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .09);
+      --shadow-soft: 0 14px 40px rgba(0, 0, 0, .06);
+      --container: 1180px;
+      --pad: clamp(18px, 4vw, 32px);
+      --header-h: 72px;
+    }
+
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; overflow-x:clip; }
+    body {
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      overflow-x:clip;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--container), 100%);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: saturate(180%) blur(18px);
+      -webkit-backdrop-filter: saturate(180%) blur(18px);
+      background: rgba(245, 245, 247, .78);
+      border-bottom: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .nav {
+      min-height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 750;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: -.03em;
+      font-weight: 850;
+      background: linear-gradient(145deg, #0b1220, #0071e3 58%, #60a5fa);
+      box-shadow: 0 12px 26px rgba(0, 113, 227, .25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      background: rgba(255, 255, 255, .58);
+      border: 1px solid rgba(0, 0, 0, .06);
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .035);
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: #4b4b52;
+      font-size: 14px;
+      font-weight: 650;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .nav-links a.active {
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 760;
+      background: var(--blue);
+      box-shadow: 0 12px 26px rgba(0, 113, 227, .22);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      background: #0067d1;
+      box-shadow: 0 16px 34px rgba(0, 113, 227, .30);
+    }
+
+    .menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 720;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      padding: 0 var(--pad) 16px;
+    }
+
+    .mobile-menu.show {
+      display: block;
+    }
+
+    .mobile-menu-panel {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .mobile-menu-panel a {
+      display: block;
+      padding: 15px 18px;
+      color: var(--ink-soft);
+      font-weight: 680;
+      border-bottom: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .mobile-menu-panel a:last-child {
+      border-bottom: 0;
+      color: var(--blue);
+    }
+
+    /* ── Article Hero ── */
+    .article-hero {
+      position: relative;
+      padding: clamp(44px, 7vw, 88px) 0 clamp(28px, 4vw, 46px);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(0, 113, 227, .16), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(125, 92, 255, .13), transparent 32%),
+        linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 100%);
+    }
+
+    .article-hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 780;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 7px rgba(0, 113, 227, .11);
+    }
+
+    .article-hero h1 {
+      margin: 0 0 18px;
+      font-size: clamp(34px, 5.8vw, 60px);
+      line-height: 1.06;
+      letter-spacing: -.05em;
+      font-weight: 660;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 0;
+    }
+
+    .article-meta-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-meta-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #111827, #0071e3);
+      font-weight: 850;
+      font-size: 12px;
+    }
+
+    .article-meta-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .article-meta-sep {
+      color: var(--line-strong);
+    }
+
+    .article-meta-date,
+    .article-meta-read {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* ── Article Body ── */
+    .article-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(28px, 4vw, 48px) 0 clamp(54px, 7vw, 92px);
+    }
+
+    .article-content h2 {
+      margin: clamp(32px, 4vw, 48px) 0 14px;
+      font-size: clamp(24px, 3.4vw, 34px);
+      line-height: 1.10;
+      letter-spacing: -.045em;
+      font-weight: 730;
+    }
+
+    .article-content h3 {
+      margin: clamp(24px, 3vw, 36px) 0 10px;
+      font-size: clamp(19px, 2.4vw, 24px);
+      line-height: 1.16;
+      letter-spacing: -.03em;
+      font-weight: 700;
+    }
+
+    .article-content p {
+      margin: 0 0 18px;
+      color: var(--ink-soft);
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.72;
+      letter-spacing: -.012em;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin: 0 0 20px;
+      padding-left: 24px;
+      color: var(--ink-soft);
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.72;
+    }
+
+    .article-content li {
+      margin-bottom: 8px;
+    }
+
+    .article-content blockquote {
+      margin: 28px 0;
+      padding: 20px 22px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      background: #f2f7ff;
+      color: #1d1d2e;
+      font-size: 17px;
+      line-height: 1.62;
+      font-weight: 580;
+    }
+
+    .article-content blockquote p {
+      margin: 0;
+      color: inherit;
+    }
+
+    .article-content strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .article-content a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ── CTA Card (bottom of article) ── */
+    .article-cta {
+      max-width: 760px;
+      margin: 0 auto clamp(36px, 5vw, 60px);
+      text-align: center;
+      border-radius: var(--radius-xl);
+      padding: clamp(28px, 4vw, 52px) 24px;
+      background: linear-gradient(135deg, #111827, #07111f 62%, #123e75);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .article-cta h2 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.06;
+      letter-spacing: -.05em;
+      color: #fff;
+    }
+
+    .article-cta p {
+      margin: 0 0 20px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .article-cta .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      font-weight: 760;
+      letter-spacing: -.01em;
+      background: #fff;
+      color: #07111f;
+      transition: transform .2s ease;
+    }
+
+    .article-cta .primary-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 18px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 680;
+      transition: gap .2s;
+    }
+
+    .back-link:hover {
+      gap: 10px;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      padding: 28px 0 48px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .65s cubic-bezier(.2, .8, .2, 1), transform .65s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal {
+        transition: none;
+      }
+    }
+
+    @media (max-width:780px) {
+      :root { --header-h:auto; --pad:18px; }
+      .site-header { padding: 12px 0; border-bottom: none; }
+      .nav { flex-wrap:wrap; justify-content:center; gap:12px; }
+      .brand { margin-bottom: 2px; }
+      .nav-links { width:100%; overflow-x:auto; justify-content:flex-start; padding:6px; border-radius:14px; -webkit-overflow-scrolling:touch; scrollbar-width:none; box-shadow:0 4px 12px rgba(0,0,0,.03); }
+      .nav-links::-webkit-scrollbar { display:none; }
+      .nav-links a { white-space:nowrap; }
+      .nav-cta { display:none; }
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html" aria-label="SpeakingPad home"><span class="brand-mark">SP</span><span>SpeakingPad</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#programs">Programs</a>
+        <a href="../index.html#testimonials">Testimonials</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../index.html#lead">Contact</a>
+      </nav>
+      <a class="nav-cta" href="../index.html#lead">Free Consultation</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="article-hero">
+      <div class="container article-hero-inner reveal">
+        <a class="back-link" href="../blog.html"><span aria-hidden="true">←</span> All articles</a>
+        <p class="kicker">Speech Skills</p>
+        <h1>Common Grammar Mistakes in Spoken English and How to Avoid Them</h1>
+        <div class="article-meta">
+          <div class="article-meta-author">
+            <div class="article-meta-avatar">AG</div>
+            <span class="article-meta-name">Arpit Gupta</span>
+          </div>
+          <span class="article-meta-sep">·</span>
+          <span class="article-meta-date">03 Oct 2026</span>
+          <span class="article-meta-sep">·</span>
+          <span class="article-meta-read">10 min read</span>
+        </div>
+      </div>
+    </section>
+
+    <article class="container">
+      <div class="article-content reveal">
+        <p>Ever caught yourself saying, &#8220;I could of gone there&#8221; and wondered why it sounds off? You&#8217;re not alone. These tiny slips happen in meetings, interviews, and casual chats, but they erode the professionalism you&#8217;re trying to project. The good news? You can fix them with deliberate practice and a few mental shortcuts.</p>
+
+<h2>Mistake #1: Confusing &#8220;who&#8221; and &#8220;whom&#8221;</h2>
+<p>You reach for &#8220;who&#8221; because it sounds natural, but the correct choice depends on whether the pronoun is the subject or object. If the pronoun receives the action, use &#8220;whom.&#8221; Example: &#8220;To <strong>whom</strong> did you speak?&#8221; not &#8220;who did you speak to.&#8221; Say it out loud, swap the sentence, and see which feels right.</p>
+<p>Practice by turning the sentence around: &#8220;Did you speak to <strong>whom</strong>?&#8221; If the answer is obvious, you&#8217;re using the right word. Keep a notebook of these swaps and review them weekly.</p>
+
+<h2>Mistake #2: Overusing &#8220;like&#8221; for &#8220;say&#8221; or &#8220;think&#8221;</h2>
+<p>Colloquial speech often slips into &#8220;like, I think...&#8221; but in professional settings, clarity wins. Replace &#8220;like&#8221; with &#8220;I think&#8221; or &#8220;I believe.&#8221; Example: &#8220;I <strong>think</strong> the deadline is tight,&#8221; not &#8220;I <strong>like</strong> the deadline is tight.&#8221; The change is subtle, but it signals confidence.</p>
+<p>When you catch yourself starting a sentence with &#8220;like,&#8221; pause, reset, and finish with the proper verb. Over time, your sentences will sound more decisive.</p>
+
+<h2>Mistake #3: Mixing Up &#8220;fewer&#8221; and &#8220;less&#8221;</h2>
+<p>You hear it all the time: &#8220;Less options&#8221; or &#8220;Fewer data.&#8221; Remember: &#8220;Fewer&#8221; is for countable nouns; &#8220;less&#8221; is for uncountable quantities. Example: &#8220;Fewer meetings, please&#8221; (you can count meetings) vs. &#8220;Less confusion, please.&#8221; (confusion is abstract).</p>
+<p>Before you speak, ask yourself if you could add &#8220;units of&#8221; before the word. If you can, you need &#8220;fewer.&#8221; If not, stick with &#8220;less.&#8221;</p>
+
+<h2>Mistake #4: Using &#8220;could of&#8221; and &#8220;should of&#8221;</h2>
+<p>These are the classic &#8220;could have&#8221; and &#8220;should have&#8221; mishearings. The correct forms are &#8220;could have&#8221; and &#8220;should have.&#8221; Remember: the modal verb + particle + object = &#8220;have.&#8221; Example: &#8220;I <strong>could have</strong; finished earlier.&#8221;</p>
+<p>When you catch the slip, say the full phrase out loud: &#8220;I could have finished earlier.&#8221; The extra syllable reinforces the correct form and prevents the mistake from slipping back.</p>
+
+<h2>Mistake #5: Ending sentences with prepositions unnecessarily</h2>
+<p>Many native speakers tolerate preposition endings, but in formal Indian corporate settings, it still raises eyebrows. If a preposition is the last word, try moving the phrase: &#8220;Can you provide the report?&#8221; instead of &#8220;Can you provide the report with?&#8221; The revision sounds cleaner and more professional.</p>
+<p>Write a draft of your sentence, then check each ending for a preposition. If you feel the sentence is awkward after moving it, you&#8217;ve found a spot to fix.</p>
+
+<h2>Mistake #6: Confusing &#8220;its&#8221; and &#8220;it&#8217;s&#8221;</h2>
+<p>These two cause endless confusion. Use &#8220;its&#8221; only to show possession: &#8220;The project has a deadline; its timeline is tight.&#8221; Use &#8220;it&#8217;s&#8221; as a contraction for &#8220;it is.&#8221; Example: &#8220;It&#8217;s going to be challenging.&#8221;</p>
+<p>When you pause before speaking, ask: &#8220;Am I talking about ownership or a contraction?&#8221; This quick mental check eliminates the mix‑up.</p>
+
+<h2>Mistake #7: Overusing filler words like &#8220;um,&#8221; &#8220;you know&#8221;</h2>
+<p>Fillers sound natural in casual chat but they dilute authority in presentations and interviews. Replace &#8220;you know&#8221; with a pause and a clear statement: &#8220;I believe the data supports our strategy.&#8221;</p>
+<p>Practice by recording yourself delivering a 60‑second paragraph. Play it back and count filler occurrences. Aim to reduce them by half each week.</p>
+
+<blockquote>
+The difference between a pause and a stumble is the grammar you use.
+</blockquote>
+
+<h2>How to Build a Grammar‑Safe Habit</h2>
+<p>First, internalise the rule, not the word. For each mistake, write the rule on a sticky note and keep it visible on your laptop or desk. Second, rehearse key sentences out loud at least three times before you use them in a meeting or interview. Third, after every speaking opportunity, spend two minutes noting any slips you caught. This creates a feedback loop that forces correction.</p>
+<p>You can also use a simple technique called &#8220;reverse‑spell‑check.&#8221; When you finish speaking, replay the audio in your head and replace incorrect forms with the right ones. Doing this mentally sharpens your ear for proper grammar.</p>
+
+<h2>Practical Exercise: The 5‑Sentence Drill</h2>
+<ul>
+<li>Pick a random topic relevant to your field (e.g., market trends).</li>
+<li>Write five sentences about it, intentionally swapping in one of the common errors (e.g., &#8220;who&#8221; vs. &#8220;whom&#8221;).</li>
+<li>Read each sentence aloud, then correct the error and repeat.</li>
+<li>Record yourself delivering the corrected sentences.</li>
+<li>Compare the recording with the written version and note any lingering slips.</li>
+</ul>
+<p>Do this drill once a day for a week, and you&#8217;ll notice a measurable improvement in confidence and clarity.</p>
+
+<h2>Wrap‑Up: Keep the Momentum Going</h2>
+<p>Grammar isn&#8217;t about memorizing rules; it&#8217;s about building a habit that makes you sound precise and credible. Treat each conversation as a mini‑lab where you test and refine your language. The more you practice, the less you&#8217;ll rely on instinct alone.</p>
+<p>Ready to put these fixes into practice? SpeakingPad offers structured coaching that drills exactly these slips into your muscle memory. Join fellow MBA students and early‑career professionals for real‑time feedback, targeted exercises, and a clear path to mastering spoken English. Start your free trial today and see the difference in every meeting, interview, and presentation you deliver.</p>
+<p>&nbsp;</p>
+      </div>
+    </article>
+
+    <div class="container">
+      <div class="article-cta reveal">
+        <h2>Ready to become a sharper speaker?</h2>
+        <p>Book a free consultation and discover the right communication improvement path for you.</p>
+        <a class="primary-btn" href="../index.html#lead">Book free consultation <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> SpeakingPad. All rights reserved.</span>
+      <div style="display:flex; gap:16px; align-items:center;">
+        <span>Clarity. Confidence. Leadership communication.</span>
+        <a href="https://www.linkedin.com/in/gupta-arpit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" style="color:var(--muted); transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (history.scrollRestoration) {
+      history.scrollRestoration = "manual";
+    }
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+
+    (function () {
+      var year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      var revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12 });
+        revealItems.forEach(function (item) { observer.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add("visible"); });
+      }
+    })();
+  </script>
+</body>
+
+</html>
